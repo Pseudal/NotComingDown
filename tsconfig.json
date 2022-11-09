@@ -10,6 +10,8 @@
   // https://www.typescriptlang.org/docs/handbook/compiler-options.html
   "compilerOptions": {
     // Specifies the root folder within your source files.
+    "noImplicitUseStrict": true,
+    "strict": false,
     "rootDir": "./src",
   },
 
