@@ -1,4 +1,4 @@
-import { EffectVariant, ModCallback, TearFlag } from "isaac-typescript-definitions";
+import { ModCallback } from "isaac-typescript-definitions";
 //import { printConsole } from "isaacscript-common";
 
 import * as json from "json";
@@ -9,11 +9,13 @@ import { RevCompatibility } from "./scripts/Rev";
 import { VanillaElseIfHell } from "./scripts/Vanilla"
 import {IHateDelirium} from "./scripts/DeliriumHell"
 import {ModConfig} from "./scripts/modConfigMenu"
-import { addFlag, bitFlags, printConsole } from "isaacscript-common";
+import { printConsole } from "isaacscript-common";
 interface DangerData {
   Danger: int | undefined;
   ZoneLink: unknown | undefined;
   IndicatorBrim: Entity[];
+  Rotate: false;
+  ambiguous: false
 }
 
 let ActiveEnemy = [] as Entity[];
@@ -40,22 +42,35 @@ function Timer(){
 }
 
 function debugComing (ent, sprite, data){
-  if(ent){
-    debugEntity = ent
+  if(ent.Type !== 903 && ent.Variant !== 1){
+    if(ent){
+      debugEntity = ent
+    }
+    if(sprite){
+      debugSprite = sprite
+    }
+    if(data){
+      debugData = data
+    }
   }
-  if(sprite){
-    debugSprite = sprite
-  }
-  if(data){
-    debugData = data
-  }
+
 }
+
+function GetAngleDifference(a1, a2){
+    let sub = a1 - a2
+    return (sub + 180) % 360 - 180
+}
+
+
+
 function debugTextCOming(){
   if(IRFconfig.Debug == false){
     if(debugEntity !== undefined){
       Isaac.RenderText(`entity type : ${debugEntity.Type}, variant : ${debugEntity.Variant}, health : ${debugEntity.HitPoints}`, 50, 30, 255, 255, 255, 255)
       Isaac.RenderText(`entity position : ${debugEntity.Position} colision : ${debugEntity.GridCollisionClass}`, 50, 40, 255, 255, 255, 255)
       Isaac.RenderText(`npc state : ${debugEntity.ToNPC().State} v1 : ${debugEntity.ToNPC().V1}`, 50, 50, 255, 255, 255, 255)
+      Isaac.RenderText(`Target : ${debugEntity.Target} TargetPos : ${debugEntity.TargetPosition}`, 50, 60, 255, 255, 255, 255)
+      Isaac.RenderText(`angle calcul : ${ (debugEntity.Position - Isaac.GetPlayer().Position).GetAngleDegrees()}`, 50, 70, 255, 255, 255, 255)
     }else{
       Isaac.RenderText(`No entity `, 50, 30, 255, 255, 255, 255)
     }
@@ -68,13 +83,45 @@ function debugTextCOming(){
   }
 }
 
-function LaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
+function LaserIndicator(ent, angle, mult: any[], position, r?, g?, b?, positionX?: any[]) {
+  let data = ent.GetData() as DangerData;
+  if(positionX.length == 0)
+    positionX = [0]
+
+  if(data.Danger == 1){
+    for (let index = 0; index < data.IndicatorBrim.length; index++) {
+      const indicator = data.IndicatorBrim[index];
+      indicator.Position = Vector(ent.Position.X - positionX[index], ent.Position.Y - position)
+      indicator.Color = Color.Lerp(indicator.Color,Color(r,g,b,2),0.2)
+    }
+    return;
+  }
+  else{
+    let i = 0
+    data.IndicatorBrim = [] as Entity[]
+    for (let index = 0; index < mult.length; index++) {
+      // let indicator = Isaac.Spawn(7, 7, 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
+      let indicator = Isaac.Spawn(7, 7 , 0, Vector(ent.Position.X - positionX[index], ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
+      // indicator.TearFlags = bitFlags(TearFlag.HOMING)
+      indicator.Angle = angle * mult[index];
+      indicator.Color = Color(r-1,g,b,0)
+      //indicator.Parent = ent
+      data.IndicatorBrim.push(indicator)
+    }
+    data.Danger = 1;
+  }
+
+}
+
+function TargetLaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
   let data = ent.GetData() as DangerData;
 
     if(data.Danger == 1){
       for (let index = 0; index < data.IndicatorBrim.length; index++) {
         const indicator = data.IndicatorBrim[index];
         indicator.Position = Vector(ent.Position.X, ent.Position.Y - position)
+        if(data.Rotate == true)
+          indicator.Angle = angle + mult[index];
         indicator.Color = Color.Lerp(indicator.Color,Color(r,g,b,2),0.2)
       }
       return;
@@ -86,7 +133,7 @@ function LaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
         // let indicator = Isaac.Spawn(7, 7, 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
         let indicator = Isaac.Spawn(7, 7 , 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
         // indicator.TearFlags = bitFlags(TearFlag.HOMING)
-        indicator.Angle = angle * mult[index];
+        indicator.Angle = angle + mult[index];
         indicator.Color = Color(r-1,g,b,0)
         //indicator.Parent = ent
         data.IndicatorBrim.push(indicator)
@@ -142,7 +189,7 @@ function postRender(){
       }
     }
 
-    VanillaElseIfHell(ent, EntSprite, data, IRFconfig, LaserIndicator, RemoveLaserIndicator, AfterDedLaserIndicator)
+    VanillaElseIfHell(ent, EntSprite, data, IRFconfig, LaserIndicator, RemoveLaserIndicator, AfterDedLaserIndicator, TargetLaserIndicator)
   });
   //! security
 
@@ -156,7 +203,7 @@ function postUpdate(){
   //  DebugText = "no entity"
   } else {
     entities.forEach(ent => {
-    if(ent.IsActiveEnemy(true)){
+    if(ent.IsActiveEnemy(true) || (ent.Type == 4 && ent.Variant == 15)){
       //printConsole(`${ent}`)
       enemy.push(ent);
     }
