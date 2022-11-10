@@ -31,6 +31,7 @@ let debugSprite : Sprite | undefined;
 let debugData : unknown | undefined;
 let time = 0
 
+
 main();
 
 function Timer(){
@@ -70,27 +71,29 @@ function debugTextCOming(){
 function LaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
   let data = ent.GetData() as DangerData;
 
-  if(data.Danger == 1){
-    for (let index = 0; index < data.IndicatorBrim.length; index++) {
-      const indicator = data.IndicatorBrim[index];
-      indicator.Position = Vector(ent.Position.X, ent.Position.Y - position)
-      indicator.Color = Color.Lerp(indicator.Color,Color(r,g,b,1),0.2)
+    if(data.Danger == 1){
+      for (let index = 0; index < data.IndicatorBrim.length; index++) {
+        const indicator = data.IndicatorBrim[index];
+        indicator.Position = Vector(ent.Position.X, ent.Position.Y - position)
+        indicator.Color = Color.Lerp(indicator.Color,Color(r,g,b,2),0.2)
+      }
+      return;
     }
-    return;
-  }
-  else{
-    let i = 0
-    data.IndicatorBrim = [] as Entity[]
-    for (let index = 0; index < mult.length; index++) {
-      let indicator = Isaac.Spawn(7, 7, 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
-      // indicator.TearFlags = bitFlags(TearFlag.HOMING)
-      indicator.Angle = angle * mult[index];
-      indicator.Color = Color(r-1,g,b,0)
-      //indicator.Parent = ent
-      data.IndicatorBrim.push(indicator)
+    else{
+      let i = 0
+      data.IndicatorBrim = [] as Entity[]
+      for (let index = 0; index < mult.length; index++) {
+        // let indicator = Isaac.Spawn(7, 7, 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
+        let indicator = Isaac.Spawn(7, 7 , 0, Vector(ent.Position.X, ent.Position.Y - position),  Vector(0,0).Rotated(0), undefined).ToLaser();
+        // indicator.TearFlags = bitFlags(TearFlag.HOMING)
+        indicator.Angle = angle * mult[index];
+        indicator.Color = Color(r-1,g,b,0)
+        //indicator.Parent = ent
+        data.IndicatorBrim.push(indicator)
+      }
+      data.Danger = 1;
     }
-    data.Danger = 1;
-  }
+
 }
 
 function RemoveLaserIndicator(ent) {
@@ -133,15 +136,16 @@ function postRender(){
     let data = ent.GetData() as unknown as DangerData;
     let EntSprite = ent.GetSprite()
     debugComing(ent, EntSprite, data)
+    if(ent.IsDead() || ent.Exists() == false){
+      if(data.IndicatorBrim){
+        RemoveLaserIndicator(ent)
+      }
+    }
 
     VanillaElseIfHell(ent, EntSprite, data, IRFconfig, LaserIndicator, RemoveLaserIndicator, AfterDedLaserIndicator)
   });
   //! security
-  ActiveZone.forEach(zone => {
-    if(zone?.Parent?.IsDead() ||!zone?.Parent?.Exists()){
-      zone.Remove();
-    }
-  });
+
 }
 
 
