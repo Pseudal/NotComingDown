@@ -333,48 +333,60 @@ if (ent.Type == 241){
       if(data.IndicatorBrim){
         data.Danger = 0;
         RemoveLaserIndicator(ent)
+        return;
       }
     }
   }
   //BrimBomb
   else if (ent.Type == 4 && ent.Variant == 15){
 
-    if((EntSprite.IsPlaying("Pulse")))
-        spawnTracer(ent, 90, [1,2,3,4], 0, 2, 0, 0)
+    if((EntSprite.IsPlaying("Pulse"))){
+      spawnTracer(ent, 90, [1,2,3,4], 0, 2, 0, 0)
+      return;
+    }
+
 
 
     if(EntSprite.IsPlaying("Explode")){
       if(data.IndicatorBrim){
         data.Danger = 0;
         RemoveLaserIndicator(ent)
+        return;
       }
     }
   }//Mother
   else if (ent.Type == 912){
 
-    if(EntSprite.IsPlaying("Transition") && (EntSprite.GetFrame()>80 && EntSprite.GetFrame()<102))
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0)
-
+    if(EntSprite.IsPlaying("Transition") && (EntSprite.GetFrame()>80 && EntSprite.GetFrame()<102)){
+      spawnTracer(ent, 90, [1], 50, 2, 0, 0)
+      return;
+    }
 
     if(EntSprite.IsPlaying("Transition") && ( EntSprite.GetFrame()>102)){
       if(data.IndicatorBrim){
         data.Danger = 0;
         RemoveLaserIndicator(ent)
+        return;
       }
     }
   }
   else if (ent.Type == 84){
 
-    if(EntSprite.IsPlaying("Attack02") && (EntSprite.GetFrame()<20))
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0)
-    if(EntSprite.IsPlaying("Attack03") && (EntSprite.GetFrame()<15))
-      spawnTracer(ent, 90, [1.5, 4.5], 40, 2, 0, 0,[60,-60])
+    if(EntSprite.IsPlaying("Attack02") && (EntSprite.GetFrame()<20)){
+      spawnTracer(ent, 90, [1], 50, 2, 0, 0)
+      return;
+    }
 
+    if(EntSprite.IsPlaying("Attack03") && (EntSprite.GetFrame()<15)){
+      spawnTracer(ent, 90, [1.5, 4.5], 40, 2, 0, 0,[60,-60])
+      return;
+    }
 
     if((EntSprite.IsPlaying("Attack02") && (EntSprite.GetFrame()>20)) || (EntSprite.IsPlaying("Attack03") && (EntSprite.GetFrame()>15))){
       if(data.IndicatorBrim){
         data.Danger = 0;
         RemoveLaserIndicator(ent)
+        return;
       }
     }
   }
