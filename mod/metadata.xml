@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-    <name>Watch out, laser!</name>
+    <name>Watch out, laser![dev]</name>
     <directory>watch_out_laser!</directory>
-    <id>2887926286</id>
     <description>Watch out, laser ! is a currently a work in progress mod.</description>
     <version>0.6</version>
     <visibility>Friends Only</visibility>

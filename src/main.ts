@@ -162,7 +162,7 @@ function TargetLaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
         else
           indicator.Position = Vector(
             ent.Position.X,
-            ent.Position.Y - position - 20,
+            ent.Position.Y - (position - 20),
           );
         if (data.Rotate == true)
           indicator.TargetPosition = Vector(1, 0).Rotated(angle + mult[index]);
@@ -189,7 +189,7 @@ function TargetLaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
         else
           indicator.Position = Vector(
             ent.Position.X,
-            ent.Position.Y - position - 20,
+            ent.Position.Y - (position - 20),
           );
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
