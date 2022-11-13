@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.5`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.7`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -79,7 +79,9 @@ export function ModConfig(IRFconfig) {
     addItem("TheBeast", "Vanilla", "The Beast", "Enables the indicator for The Beast.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "Hey Hello! ");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Forsaken... again(I hate him) ");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs, better blood eyes ?");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Rework Foes compatibility (wave1)");
 
 
 
