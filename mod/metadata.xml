@@ -1,8 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <metadata>
-  <name>Not Coming Down!</name>
-  <directory>notccomingdown</directory>
-  <description>notccomingdown is a currently a work in progress.</description>
-  <version>0.1</version>
-  <visibility />
+    <name>Watch out, laser!</name>
+    <directory>watch_out_laser!</directory>
+    <id>2887926286</id>
+    <description>Watch out, laser ! is a currently a work in progress mod.</description>
+    <version>0.6</version>
+    <visibility>Friends Only</visibility>
+    <tag id="Lua"/>
+    <tag id="Enemies"/>
+    <tag id="Bosses"/>
+    <tag id="Hazards"/>
+    <tag id="Tweaks"/>
+    <tag id="Graphics"/>
 </metadata>

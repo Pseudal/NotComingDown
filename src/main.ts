@@ -7,7 +7,6 @@ import { ModConfig } from "./scripts/modConfigMenu";
 import { VanillaElseIfHell } from "./scripts/Vanilla";
 interface DangerData {
   Danger: int | undefined;
-  ZoneLink: unknown | undefined;
   IndicatorBrim: Entity[];
   Mega: unknown | false,
   Rotate: unknown | false;
@@ -15,25 +14,18 @@ interface DangerData {
 }
 
 let ActiveEnemy = [] as Entity[];
-let ActiveZone = [] as Entity[];
-let SpecialActiveLaser = [] as Entity[];
 declare const ModConfigMenu: unknown | undefined;
 //Compatibility
-declare const BetterMonsters: unknown | undefined;
-declare const FiendFolio: unknown | undefined;
-declare const SWAMPY: unknown | undefined;
-declare const REVEL: unknown | undefined;
-
-let debugEntity: Entity | undefined;
-let debugSprite: Sprite | undefined;
-let debugData: unknown | undefined;
-let time = 0;
+// declare const BetterMonsters: unknown | undefined;
+// declare const FiendFolio: unknown | undefined;
+// declare const SWAMPY: unknown | undefined;
+// declare const REVEL: unknown | undefined;
 
 main();
 
+let time = 0;
 function Timer() {
   time++;
-  //printConsole(`${time}`)
 }
 
 function LaserIndicator(
@@ -303,17 +295,13 @@ function cleaner() {
     //printConsole(`trigger enemy`)
     ActiveEnemy = [];
   }
-  if (ActiveZone) {
-    //printConsole(`trigger zone`)
-    ActiveZone = [];
-  }
   time = 0;
 }
 
 function main() {
   // Instantiate a new mod object, which grants the ability to add callback functions that
   // correspond to in-game events.
-  const mod = RegisterMod("Not Coming Down!", 1);
+  const mod = RegisterMod("Watch out, laser!", 1);
 
   //! MOD CONFIG MENU
   //steal on another mod, idk how it's work

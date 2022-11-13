@@ -1,17 +1,17 @@
 export function ModConfig(IRFconfig) {
   if (ModConfigMenu !== undefined) {
-    ModConfigMenu.RemoveCategory("Not Coming Down!");
+    ModConfigMenu.RemoveCategory("Watch out, laser!");
 
-    ModConfigMenu.AddSpace("Not Coming Down!", "About");
-    ModConfigMenu.AddText("Not Coming Down!","About",() => "Not Coming Down!",);
-    ModConfigMenu.AddSpace("Not Coming Down!", "About");
-    ModConfigMenu.AddText("Not Coming Down!", "About", () => `Version 0.5`);
+    ModConfigMenu.AddSpace("Watch out, laser!", "About");
+    ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
+    ModConfigMenu.AddSpace("Watch out, laser!", "About");
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.5`);
 
-    ModConfigMenu.AddSpace("Not Coming Down!", "About");
-    ModConfigMenu.AddText("Not Coming Down!", "About", () => "Mod made by Tidloas with love");
-    ModConfigMenu.AddSpace("Not Coming Down!", "About");
+    ModConfigMenu.AddSpace("Watch out, laser!", "About");
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
+    ModConfigMenu.AddSpace("Watch out, laser!", "About");
 
-    ModConfigMenu.AddSetting("Not Coming Down!", `Vanilla`, {
+    ModConfigMenu.AddSetting("Watch out, laser!", `Vanilla`, {
       Type: ModConfigMenuOptionType.BOOLEAN,
       CurrentSetting() {
         return IRFconfig.Laser;
@@ -30,7 +30,7 @@ export function ModConfig(IRFconfig) {
     });
 
     function addItem(entity, type, name, desc) {
-      ModConfigMenu.AddSetting("Not Coming Down!", `${type}`, {
+      ModConfigMenu.AddSetting("Watch out, laser!", `${type}`, {
         Type: ModConfigMenuOptionType.BOOLEAN,
         CurrentSetting() {
           return IRFconfig[entity];
@@ -78,8 +78,8 @@ export function ModConfig(IRFconfig) {
     addItem("MegaSatan", "Vanilla", "Mega Satan", "Enables the indicator for Mega Satan.");
     addItem("TheBeast", "Vanilla", "The Beast", "Enables the indicator for The Beast.");
 
-    ModConfigMenu.AddSpace("Not Coming Down!", "ChangeLog");
-    ModConfigMenu.AddText("Not Coming Down!", "ChangeLog", () => "Hey Hello! ");
+    ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "Hey Hello! ");
 
 
 
