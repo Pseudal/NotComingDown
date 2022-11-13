@@ -13,7 +13,7 @@ export function VanillaElseIfHell(
   TargetLaserIndicator,
 ): void {
   if (ent.Type == 241 && IRFconfig.RageCreep) {//spider creep
-    printConsole(`${ent.SpriteRotation} ${EntSprite.flipX} ${EntSprite.flipY}`)
+    //printConsole(`${ent.SpriteRotation} ${EntSprite.flipX} ${EntSprite.flipY}`)
     if (EntSprite.IsPlaying("Attack") && EntSprite.GetFrame() < 20) {
       //let rotation = EntSprite.Rotation + 90;
       if (ent.Variant == 1) {
