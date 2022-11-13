@@ -8,7 +8,7 @@ import { VanillaElseIfHell } from "./scripts/Vanilla";
 interface DangerData {
   Danger: int | undefined;
   IndicatorBrim: Entity[];
-  Mega: unknown | false,
+  Mega: unknown | false;
   Rotate: unknown | false;
   ambiguous: unknown | false;
 }
@@ -16,7 +16,6 @@ interface DangerData {
 let ActiveEnemy = [] as Entity[];
 declare const ModConfigMenu: unknown | undefined;
 //Compatibility
-// declare const BetterMonsters: unknown | undefined;
 // declare const FiendFolio: unknown | undefined;
 // declare const SWAMPY: unknown | undefined;
 // declare const REVEL: unknown | undefined;
@@ -96,10 +95,10 @@ function LaserIndicator(
         ).ToEffect();
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
-        if(data.Mega == true){
-          indicator.SpriteScale = Vector(10,10)
-        }else{
-          indicator.SpriteScale = Vector(1,1)
+        if (data.Mega == true) {
+          indicator.SpriteScale = Vector(10, 10);
+        } else {
+          indicator.SpriteScale = Vector(1, 1);
         }
 
         indicator.Position = Vector(
@@ -118,19 +117,36 @@ function LaserIndicator(
   }
 }
 
-function TargetLaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
+function TargetLaserIndicator(
+  ent,
+  angle: any[],
+  mult: any[],
+  position,
+  r?,
+  g?,
+  b?,
+  positionX: any[],
+) {
   let data = ent.GetData() as DangerData;
+  if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
 
   if (IRFconfig.Laser == true) {
+
     if (data.Danger == 1) {
+
       for (let index = 0; index < data.IndicatorBrim.length; index++) {
         const indicator = data.IndicatorBrim[index];
-        indicator.Position = Vector(ent.Position.X, ent.Position.Y - position);
-        if (data.Rotate == true) indicator.Angle = angle + mult[index];
+        indicator.Position = Vector(
+          ent.Position.X - positionX[index],
+          ent.Position.Y - position,
+        );
+        if (data.Rotate == true) indicator.Angle = angle[index] + mult[index];
         indicator.Color = Color.Lerp(indicator.Color, Color(r, g, b, 2), 0.2);
       }
       return;
+
     } else {
+
       let i = 0;
       data.IndicatorBrim = [] as Entity[];
       for (let index = 0; index < mult.length; index++) {
@@ -138,62 +154,69 @@ function TargetLaserIndicator(ent, angle, mult: any[], position, r?, g?, b?) {
           7,
           7,
           0,
-          Vector(ent.Position.X, ent.Position.Y - position),
+          Vector(ent.Position.X - positionX[index], ent.Position.Y - position),
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
 
-        indicator.Angle = angle + mult[index];
+        indicator.Angle = angle[index] + mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
 
         data.IndicatorBrim.push(indicator);
       }
       data.Danger = 1;
     }
+
   } else {
+
     if (data.Danger == 1) {
       for (let index = 0; index < data.IndicatorBrim.length; index++) {
         const indicator = data.IndicatorBrim[index];
         if (ent.Type == 60)
           indicator.Position = Vector(
-            ent.Position.X,
+            ent.Position.X - positionX[index],
             ent.Position.Y - position + 15,
           );
         else
           indicator.Position = Vector(
-            ent.Position.X,
+            ent.Position.X - positionX[index],
             ent.Position.Y - (position - 20),
           );
-        if (data.Rotate == true)
-          indicator.TargetPosition = Vector(1, 0).Rotated(angle + mult[index]);
+        if (data.Rotate == true){
+          indicator.TargetPosition = Vector(1, 0).Rotated(
+            angle[index] + mult[index],
+          );}
         indicator.Color = Color.Lerp(indicator.Color, Color(r, g, b, 2), 0.2);
       }
       return;
+
     } else {
-      let i = 0;
+
       data.IndicatorBrim = [] as Entity[];
       for (let index = 0; index < mult.length; index++) {
         let indicator = Isaac.Spawn(
           1000,
           198,
           0,
-          Vector(10, 10).Rotated(angle + mult[index]),
+          Vector(10, 10).Rotated(angle[index] + mult[index]),
           Vector(0.001, 0),
           ent,
         ).ToEffect();
         if (ent.Type == 60)
           indicator.Position = Vector(
-            ent.Position.X,
+            ent.Position.X - positionX[index],
             ent.Position.Y - position + 15,
           );
         else
           indicator.Position = Vector(
-            ent.Position.X,
+            ent.Position.X - positionX[index],
             ent.Position.Y - (position - 20),
           );
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
-        indicator.TargetPosition = Vector(1, 0).Rotated(angle + mult[index]);
+        indicator.TargetPosition = Vector(1, 0).Rotated(
+          angle[index] + mult[index],
+        );
         indicator.Color = Color(r, g, b, 0);
         data.IndicatorBrim.push(indicator);
         indicator.Update();
@@ -335,8 +358,5 @@ function main() {
   mod.AddCallback(ModCallback.POST_UPDATE, postRender);
   mod.AddCallback(ModCallback.POST_UPDATE, postUpdate);
   mod.AddCallback(ModCallback.POST_UPDATE, Timer);
-  //mod.AddCallback(ModCallback.POST_RENDER, debugTextCOming);
+//  mod.AddCallback(ModCallback.POST_RENDER, debugTextCOming);
 }
-
-
-

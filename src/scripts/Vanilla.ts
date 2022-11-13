@@ -37,12 +37,23 @@ export function VanillaElseIfHell(
     if (ent.ToNPC().State == 9 && EntSprite.IsPlaying("Charging")) {
       spawnTracer(ent, 90, [1], 50, 2, 2, 2);
       return;
-    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) {
-      spawnTracer(ent, 90, [0.5, 1.5], 50, 2, 2, 2);
-      return;
+    }
+    if(BetterMonsters == undefined || ent.Variant == 0){
+      if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) {
+          spawnTracer(ent, 90, [0.5, 1.5], 50, 2, 2, 2);
+          return;
+      }
+    }else{
+      if ((ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) || (ent.ToNPC().State == 12 && EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() <= 5) && ent.Variant == 1){
+          data.Rotate = true
+          let angle = (ent.Position - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
+          let angle2 = (ent.Position - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
+          TargetLaserIndicator(ent, [angle2, angle], [215, 145], 40, 1, 1, 1);
+      }
     }
 
-    if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() > 4) {
+
+    if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() >= 5) {
       if (data.IndicatorBrim) {
         data.Danger = 0;
         RemoveLaserIndicator(ent);
@@ -59,7 +70,7 @@ export function VanillaElseIfHell(
     ) {
       spawnTracer(ent, 90, [1, 2, 3, 4], 50, 2, 2, 2);
       return;
-    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging2")) {
+    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging2") && BetterMonsters == undefined) {
       spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, 2, 2, 2);
       return;
     }
@@ -451,11 +462,11 @@ export function VanillaElseIfHell(
       }
     }
   } //funcking forsaken
-  else if (ent.Type == 403 && ent.Variant == 0 && IRFconfig.Forsaken) {
+  else if (ent.Type == 403 && ent.Variant == 0 && IRFconfig.Forsaken && BetterMonsters == undefined) {
     data.Rotate = true;
     if (EntSprite.IsPlaying("BlastStart") && EntSprite.GetFrame() <= 22) {
       let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
-      TargetLaserIndicator(ent, angle, [0, 120, 240], 30, 2, 0, 0);
+      TargetLaserIndicator(ent, [angle, angle, angle], [0, 120, 240], 30, 2, 0, 0);
       return;
     }
 
@@ -474,7 +485,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 60 && ent.Variant == 1 && IRFconfig.BloodEye) {
     if (ent.ToNPC().State == 8 && EntSprite.IsOverlayPlaying("ShootOverlay")) {
       let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
-      TargetLaserIndicator(ent, angle, [180], 15, 2, 0, 0);
+      TargetLaserIndicator(ent, [angle], [180], 15, 2, 0, 0);
       return;
     }
 
@@ -676,32 +687,66 @@ export function VanillaElseIfHell(
     }
     //Satan
   } else if (ent.Type == 84 && IRFconfig.Satan) {
-    if (
-      EntSprite.IsPlaying("Attack02") &&
-      EntSprite.GetFrame() < 20 &&
-      ent.ToNPC().State == 9
-    ) {
-      spawnTracer(ent, 90, [1], 50, 2, 0, 0);
-      return;
-    }
-
-    if (
-      EntSprite.IsPlaying("Attack03") &&
-      EntSprite.GetFrame() < 15 &&
-      ent.ToNPC().State == 10
-    ) {
-      spawnTracer(ent, 90, [1.3, 4.7], 40, 2, 0, 0, [110, -110]);
-      return;
-    }
-
-    if (
-      (EntSprite.IsPlaying("Attack02") && EntSprite.GetFrame() > 20) ||
-      (EntSprite.IsPlaying("Attack03") && EntSprite.GetFrame() > 15)
-    ) {
-      if (data.IndicatorBrim) {
-        data.Danger = 0;
-        RemoveLaserIndicator(ent);
+    if(BetterMonsters !== undefined){
+      if (
+        EntSprite.IsPlaying("Attack02") &&
+        EntSprite.GetFrame() < 20 &&
+        ent.ToNPC().State == 9
+      ) {
+        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
         return;
+      }
+
+      if (
+        EntSprite.IsPlaying("Attack03") &&
+        EntSprite.GetFrame() >= 5 &&
+        EntSprite.GetFrame() <= 20 &&
+        ent.ToNPC().State == 13
+      ) {
+        let angle = (Vector((ent.Position.X+100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
+        let angle2 = (Vector((ent.Position.X-100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
+        TargetLaserIndicator(ent, [angle2, angle], [180, 180], 40, 2, 0, 0, [100,-100]);
+        return;
+      }
+
+      if (
+        (EntSprite.IsPlaying("Attack02") && EntSprite.GetFrame() > 20) ||
+        (EntSprite.IsPlaying("Attack03") && EntSprite.GetFrame() > 15)
+      ) {
+        if (data.IndicatorBrim) {
+          data.Danger = 0;
+          RemoveLaserIndicator(ent);
+          return;
+        }
+      }
+    }else{
+      if (
+        EntSprite.IsPlaying("Attack02") &&
+        EntSprite.GetFrame() < 20 &&
+        ent.ToNPC().State == 9
+      ) {
+        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+        return;
+      }
+
+      if (
+        EntSprite.IsPlaying("Attack03") &&
+        EntSprite.GetFrame() < 15 &&
+        ent.ToNPC().State == 10
+      ) {
+        spawnTracer(ent, 90, [1.3, 4.7], 40, 2, 0, 0, [110, -110]);
+        return;
+      }
+
+      if (
+        (EntSprite.IsPlaying("Attack02") && EntSprite.GetFrame() > 20) ||
+        (EntSprite.IsPlaying("Attack03") && EntSprite.GetFrame() > 15)
+      ) {
+        if (data.IndicatorBrim) {
+          data.Danger = 0;
+          RemoveLaserIndicator(ent);
+          return;
+        }
       }
     }
     //The lamb
