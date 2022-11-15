@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.7`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.7.5`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -48,7 +48,7 @@ export function ModConfig(IRFconfig) {
         Info: [`${desc}`],
       });
     }
-    addItem("Hitbox", "Vanilla", "Real Hitbox", "By default, the effects are based on the game effects, this option shows the actual hitboxes..");
+    addItem("Hitbox", "Vanilla", "Real Hitbox", "Shows the real hitbox of some lasers, mainly the holy laser of uriel and gabriel..");
     addItem("RageCreep", "Vanilla", "Rage Creep", "Enables the indicator for RageCreep and his variants.");
     addItem("Uriel", "Vanilla", "Uriel", "Enables the indicator for Uriel");
     addItem("Gabriel", "Vanilla", "Gabriel", "Enables the indicator for Gabriel");
@@ -80,11 +80,8 @@ export function ModConfig(IRFconfig) {
     addItem("TheBeast", "Vanilla", "The Beast", "Enables the indicator for The Beast.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Forsaken... again(I hate him) ");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs, better blood eyes ?");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Rework Foes compatibility (wave1)");
-
-
-
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix for gabriel ");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs, sisters vis ");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+added 'real hitbox' option ");
   }
 }

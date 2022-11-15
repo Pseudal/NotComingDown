@@ -40,7 +40,7 @@ function LaserIndicator(
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
-  if(IRFconfig.Hitbox == true && weirdHitbox == false)position = 0;
+  if(IRFconfig.Hitbox == true && weirdHitbox == true)position = 0;
 
   if (IRFconfig.Laser == true) {
     if (data.Danger == 1) {
@@ -65,7 +65,7 @@ function LaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
-      if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
+        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
         // indicator.TearFlags = bitFlags(TearFlag.HOMING)
         indicator.Angle = angle * mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
@@ -96,7 +96,7 @@ function LaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
-        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
+        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
         if (data.Mega == true) {
@@ -134,7 +134,7 @@ function TargetLaserIndicator(
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
-  if(IRFconfig.Hitbox == true && weirdHitbox == false)position = 0;
+  if(IRFconfig.Hitbox == true && weirdHitbox == true)position = 0;
 
   if (IRFconfig.Laser == true) {
 
@@ -164,7 +164,7 @@ function TargetLaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
-        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
+        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
         indicator.Angle = angle[index] + mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
 
@@ -208,7 +208,7 @@ function TargetLaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
-        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
+        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
         if (ent.Type == 60)
           indicator.Position = Vector(
             ent.Position.X - positionX[index],
@@ -372,5 +372,4 @@ function main() {
   mod.AddCallback(ModCallback.POST_UPDATE, postRender);
   mod.AddCallback(ModCallback.POST_UPDATE, postUpdate);
   mod.AddCallback(ModCallback.POST_UPDATE, Timer);
-//  mod.AddCallback(ModCallback.POST_RENDER, debugTextCOming);
 }

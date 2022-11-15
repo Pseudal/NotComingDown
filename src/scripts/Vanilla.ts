@@ -1,5 +1,4 @@
 declare const BetterMonsters: unknown | undefined;
-import { printConsole } from "isaacscript-common";
 //! todo 883 886.0 60.1 403
 //* spawnTracer(ent, 90, [3], 20, 2, 0, 2) entity/ mainly used for creep/ multiplicator and number of tracer : 1 down, 2 left, 3 right, 4 up/ Y position/ rest is RGB
 export function VanillaElseIfHell(
@@ -12,20 +11,39 @@ export function VanillaElseIfHell(
   AfterDedLaserIndicator,
   TargetLaserIndicator,
 ): void {
-  if (ent.Type == 241 && IRFconfig.RageCreep) {//spider creep
-    //printConsole(`${ent.SpriteRotation} ${EntSprite.flipX} ${EntSprite.flipY}`)
+  if (ent.Type == 241 && IRFconfig.RageCreep) {
+    //spider creep
     if (EntSprite.IsPlaying("Attack") && EntSprite.GetFrame() < 20) {
-      //let rotation = EntSprite.Rotation + 90;
       if (ent.Variant == 1) {
-        if(ent.SpriteRotation == 0 || 180)
-          spawnTracer(ent, ent.SpriteRotation + 90, [0.65, 1.35], 10, false, 2, 0, 0);
+        if (ent.SpriteRotation == 0 || 180)
+          spawnTracer(
+            ent, //Send the actual entity
+            ent.SpriteRotation + 90, //degrees, base adds 90°, used in specific cases
+            [0.65, 1.35], //Multiplier and number of lasers. Here will do (90° + sprite rotation) * 0.65 and 1.35 for the second tracer.
+            10, //height of the tracer, here will make Y-10
+            false, //Used for the option "real hitbox" if true and option active, the laser will have zero in Y
+            2, //R
+            0, //G
+            0,
+          );
+        //b
+        //there is another option that is used for the X position, very rarely used, see satan
         else
-          spawnTracer(ent, ent.SpriteRotation + 90, [0.65, 1.35], 10, false, 2, 0, 0);
+          spawnTracer(
+            ent,
+            ent.SpriteRotation + 90,
+            [0.65, 1.35],
+            10,
+            false,
+            2,
+            0,
+            0,
+          );
         return;
       } else {
-        if(ent.SpriteRotation == 0 || 180){
+        if (ent.SpriteRotation == 0 || 180) {
           spawnTracer(ent, ent.SpriteRotation + 90, [1], 10, false, 2, 0, 0);
-        }else{
+        } else {
           spawnTracer(ent, ent.SpriteRotation + 90, [1], 10, false, 2, 0, 0);
         }
         return;
@@ -34,8 +52,8 @@ export function VanillaElseIfHell(
 
     if (EntSprite.IsPlaying("Attack") && EntSprite.GetFrame() > 20) {
       if (data.IndicatorBrim) {
-        data.Danger = 0;
-        RemoveLaserIndicator(ent);
+        data.Danger = 0; //to avoid spawn 2 lasers at the same place, data.danger is set to 1 after spawn of the tracer. this indicates that a new laser can spawn
+        RemoveLaserIndicator(ent); //Removes the effect
         return;
       }
     }
@@ -45,20 +63,40 @@ export function VanillaElseIfHell(
       spawnTracer(ent, 90, [1], 50, false, 2, 2, 2);
       return;
     }
-    if(BetterMonsters == undefined || ent.Variant == 0){
+    if (BetterMonsters == undefined || ent.Variant == 0) {
       if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) {
-          spawnTracer(ent, 90, [0.5, 1.5], 50, false, 2, 2, 2);
-          return;
+        spawnTracer(ent, 90, [0.5, 1.5], 50, true, 2, 2, 2);
+        return;
       }
-    }else{
-      if ((ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) || (ent.ToNPC().State == 12 && EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() <= 5) && ent.Variant == 1){
-          data.Rotate = true
-          let angle = (ent.Position - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-          let angle2 = (ent.Position - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-          TargetLaserIndicator(ent, [angle2, angle], [215, 145], 40, false, 1, 1, 1);
+    } else {
+      if (
+        (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) ||
+        (ent.ToNPC().State == 12 &&
+          EntSprite.IsPlaying("LaserShot") &&
+          EntSprite.GetFrame() <= 5 &&
+          ent.Variant == 1)
+      ) {
+        data.Rotate = true;
+        let angle = (
+          ent.Position -
+          Vector(
+            Isaac.GetPlayer().Position.X,
+            Isaac.GetPlayer().Position.Y + 30,
+          )
+        ).GetAngleDegrees(); //this is used to calculate the angle between isaac and the entity, technically, where will the entity shoot
+        TargetLaserIndicator(
+          //Target is a little different than the basic function.
+          ent,
+          [angle, angle], //the angle is put here instead of the basic 90°, becomes a table
+          [215, 145], //A bit different than the multiplier, but works the same way. Manages the number of lasers and changes the angle. for example, if the laser is to be directed at isaac, the value should be 180. to give an image, https://imgur.com/QddRjUG
+          40,
+          false,
+          1,
+          1,
+          1,
+        );
       }
     }
-
 
     if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() >= 5) {
       if (data.IndicatorBrim) {
@@ -75,10 +113,17 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Float") ||
         EntSprite.IsPlaying("Shield"))
     ) {
-      spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
+      if(BetterMonsters !== undefined && ent.Variant == 1)
+        spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
+      else
+        spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
       return;
-    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging2") && (BetterMonsters == undefined || ent.Variant == 0)) {
-      spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, false, 2, 2, 2);
+    } else if (
+      ent.ToNPC().State == 10 &&
+      EntSprite.IsPlaying("Charging2") &&
+      (BetterMonsters == undefined || ent.Variant == 0)
+    ) {
+      spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
       return;
     }
 
@@ -212,7 +257,7 @@ export function VanillaElseIfHell(
       if (
         ent.ToNPC().State == 9 &&
         EntSprite.IsPlaying("Attack01Horiz") &&
-        EntSprite.FlipX == false &&
+        EntSprite.FlipX == true &&
         EntSprite.GetFrame() < 30
       ) {
         spawnTracer(ent, 90, [2], 20, false, 2, 0, 0);
@@ -278,7 +323,7 @@ export function VanillaElseIfHell(
       }
     }
   } //vis versa
-  else if (ent.Type == 836  && IRFconfig.Vis) {
+  else if (ent.Type == 836 && IRFconfig.Vis) {
     if (ent.Variant == 0) {
       if (
         ent.ToNPC().State == 9 &&
@@ -427,7 +472,16 @@ export function VanillaElseIfHell(
         spawnTracer(ent, 90, [1, 2, 3, 4], 40, false, 2, 0, 0);
       }
       if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() < 35) {
-        spawnTracer(ent, 90, [1, 2, 3, 4, 1.5, 2.5, 3.5, 4.5], 40, false, 2, 0, 0);
+        spawnTracer(
+          ent,
+          90,
+          [1, 2, 3, 4, 1.5, 2.5, 3.5, 4.5],
+          40,
+          false,
+          2,
+          0,
+          0,
+        );
         return;
       }
     }
@@ -469,11 +523,25 @@ export function VanillaElseIfHell(
       }
     }
   } //funcking forsaken
-  else if (ent.Type == 403 && ent.Variant == 0 && IRFconfig.Forsaken && BetterMonsters == undefined) {
+  else if (
+    ent.Type == 403 &&
+    ent.Variant == 0 &&
+    IRFconfig.Forsaken &&
+    BetterMonsters == undefined
+  ) {
     data.Rotate = true;
     if (EntSprite.IsPlaying("BlastStart") && EntSprite.GetFrame() <= 22) {
       let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
-      TargetLaserIndicator(ent, [angle, angle, angle], [0, 120, 240], 30, false, 2, 0, 0);
+      TargetLaserIndicator(
+        ent,
+        [angle, angle, angle],
+        [0, 120, 240],
+        30,
+        false,
+        2,
+        0,
+        0,
+      );
       return;
     }
 
@@ -507,16 +575,13 @@ export function VanillaElseIfHell(
   else if (ent.Type == 900 && IRFconfig.ReapCreep) {
     if (EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() < 23) {
       data.Ambiguous = true;
-      data.Mega = false
+      data.Mega = false;
       spawnTracer(ent, 90, [1.65, 1.5, 4.5, 4.35], 40, false, 2, 0, 0);
       return;
     }
-    if (
-      EntSprite.IsPlaying("Attack3BeamStart") &&
-      EntSprite.GetFrame() < 23
-    ) {
-      data.Ambiguous == false
-      data.Mega = true
+    if (EntSprite.IsPlaying("Attack3BeamStart") && EntSprite.GetFrame() < 23) {
+      data.Ambiguous == false;
+      data.Mega = true;
       spawnTracer(ent, 90, [1], 40, false, 2, 0, 0);
       return;
     }
@@ -555,7 +620,7 @@ export function VanillaElseIfHell(
   } //Sister's
   else if (ent.Type == 410 && IRFconfig.Sister) {
     if (ent.Variant == 0) {
-      data.Mega = true
+      data.Mega = true;
       if (
         EntSprite.IsPlaying("LaserStartDown") &&
         EntSprite.GetFrame() > 26 &&
@@ -569,7 +634,9 @@ export function VanillaElseIfHell(
       if (
         EntSprite.IsPlaying("LaserStartSide") &&
         EntSprite.GetFrame() > 26 &&
-        ((EntSprite.FlipX == true && ent.ToNPC().State == 10) ||
+        EntSprite.FlipX == true &&
+        (ent.ToNPC().State == 10 ||
+          ent.ToNPC().State == 9 ||
           ent.ToNPC().State == 11)
       ) {
         spawnTracer(ent, 90, [2], 30, false, 2, 0, 0);
@@ -675,7 +742,7 @@ export function VanillaElseIfHell(
     }
   } //Mother
   else if (ent.Type == 912 && IRFconfig.Mother) {
-    data.Mega = true
+    data.Mega = true;
     if (
       EntSprite.IsPlaying("Transition") &&
       EntSprite.GetFrame() > 80 &&
@@ -694,7 +761,7 @@ export function VanillaElseIfHell(
     }
     //Satan
   } else if (ent.Type == 84 && IRFconfig.Satan) {
-    if(BetterMonsters !== undefined){
+    if (BetterMonsters !== undefined) {
       if (
         EntSprite.IsPlaying("Attack02") &&
         EntSprite.GetFrame() < 20 &&
@@ -710,9 +777,31 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() <= 20 &&
         ent.ToNPC().State == 13
       ) {
-        let angle = (Vector((ent.Position.X+100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-        let angle2 = (Vector((ent.Position.X-100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-        TargetLaserIndicator(ent, [angle2, angle], [180, 180], 40, false, 2, 0, 0, [100,-100]);
+        let angle = (
+          Vector(ent.Position.X + 100, ent.Position.Y) -
+          Vector(
+            Isaac.GetPlayer().Position.X,
+            Isaac.GetPlayer().Position.Y + 30,
+          )
+        ).GetAngleDegrees();
+        let angle2 = (
+          Vector(ent.Position.X - 100, ent.Position.Y) -
+          Vector(
+            Isaac.GetPlayer().Position.X,
+            Isaac.GetPlayer().Position.Y + 30,
+          )
+        ).GetAngleDegrees();
+        TargetLaserIndicator(
+          ent,
+          [angle2, angle],
+          [180, 180],
+          40,
+          false,
+          2,
+          0,
+          0,
+          [100, -100],
+        );
         return;
       }
 
@@ -726,7 +815,7 @@ export function VanillaElseIfHell(
           return;
         }
       }
-    }else{
+    } else {
       if (
         EntSprite.IsPlaying("Attack02") &&
         EntSprite.GetFrame() < 20 &&
@@ -935,9 +1024,13 @@ export function VanillaElseIfHell(
         return;
       }
     }
-  }//alt mom
+  } //alt mom
   else if (ent.Type == 45 && IRFconfig.Mom) {
-    if (EntSprite.IsPlaying("EyeLaser") && EntSprite.GetFrame() < 45 && EntSprite.GetFrame() > 20) {
+    if (
+      EntSprite.IsPlaying("EyeLaser") &&
+      EntSprite.GetFrame() < 45 &&
+      EntSprite.GetFrame() > 20
+    ) {
       //let rotation = EntSprite.Rotation + 90;
       spawnTracer(ent, ent.SpriteRotation + 90, [1], 0, false, 2, 0, 0);
       return;
@@ -950,9 +1043,9 @@ export function VanillaElseIfHell(
         return;
       }
     }
-  }//MegaSatan
+  } //MegaSatan
   else if (ent.Type == 274 && IRFconfig.MegaSatan) {
-    data.Mega = true
+    data.Mega = true;
     if (EntSprite.IsPlaying("Charging") && ent.ToNPC().State == 8) {
       spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
       return;
@@ -965,9 +1058,8 @@ export function VanillaElseIfHell(
         return;
       }
     }
-  }
-  else if (ent.Type == 951 && IRFconfig.TheBeast) {
-    data.Mega = true
+  } else if (ent.Type == 951 && IRFconfig.TheBeast) {
+    data.Mega = true;
     if (EntSprite.IsPlaying("SuckEnd") && EntSprite.GetFrame() > 18) {
       spawnTracer(ent, 90, [2], 0, false, 3, 0, 0);
       return;
