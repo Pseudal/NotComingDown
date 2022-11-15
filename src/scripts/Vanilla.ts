@@ -1,4 +1,6 @@
 declare const BetterMonsters: unknown | undefined;
+import { printConsole } from "isaacscript-common";
+
 //! todo 883 886.0 60.1 403
 //* spawnTracer(ent, 90, [3], 20, 2, 0, 2) entity/ mainly used for creep/ multiplicator and number of tracer : 1 down, 2 left, 3 right, 4 up/ Y position/ rest is RGB
 export function VanillaElseIfHell(
@@ -80,8 +82,8 @@ export function VanillaElseIfHell(
         let angle = (
           ent.Position -
           Vector(
-            Isaac.GetPlayer().Position.X,
-            Isaac.GetPlayer().Position.Y + 30,
+            ent.ToNPC().GetPlayerTarget().Position.X,
+            ent.ToNPC().GetPlayerTarget().Position.Y + 30,
           )
         ).GetAngleDegrees(); //this is used to calculate the angle between isaac and the entity, technically, where will the entity shoot
         TargetLaserIndicator(
@@ -531,7 +533,7 @@ export function VanillaElseIfHell(
   ) {
     data.Rotate = true;
     if (EntSprite.IsPlaying("BlastStart") && EntSprite.GetFrame() <= 22) {
-      let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
+      let angle = (ent.Position - ent.ToNPC().GetPlayerTarget().Position).GetAngleDegrees();
       TargetLaserIndicator(
         ent,
         [angle, angle, angle],
@@ -559,7 +561,7 @@ export function VanillaElseIfHell(
   //eye need fix
   else if (ent.Type == 60 && ent.Variant == 1 && IRFconfig.BloodEye) {
     if (ent.ToNPC().State == 8 && EntSprite.IsOverlayPlaying("ShootOverlay")) {
-      let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
+      let angle = (ent.Position - ent.ToNPC().GetPlayerTarget().Position).GetAngleDegrees();
       TargetLaserIndicator(ent, [angle], [180], 15, false, 2, 0, 0);
       return;
     }
@@ -780,15 +782,15 @@ export function VanillaElseIfHell(
         let angle = (
           Vector(ent.Position.X + 100, ent.Position.Y) -
           Vector(
-            Isaac.GetPlayer().Position.X,
-            Isaac.GetPlayer().Position.Y + 30,
+            ent.ToNPC().GetPlayerTarget().X,
+            ent.ToNPC().GetPlayerTarget().Y + 30,
           )
         ).GetAngleDegrees();
         let angle2 = (
           Vector(ent.Position.X - 100, ent.Position.Y) -
           Vector(
-            Isaac.GetPlayer().Position.X,
-            Isaac.GetPlayer().Position.Y + 30,
+            ent.ToNPC().GetPlayerTarget().X,
+            ent.ToNPC().GetPlayerTarget().Y + 30,
           )
         ).GetAngleDegrees();
         TargetLaserIndicator(
