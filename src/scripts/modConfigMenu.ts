@@ -48,6 +48,7 @@ export function ModConfig(IRFconfig) {
         Info: [`${desc}`],
       });
     }
+    addItem("Hitbox", "Vanilla", "Real Hitbox", "By default, the effects are based on the game effects, this option shows the actual hitboxes..");
     addItem("RageCreep", "Vanilla", "Rage Creep", "Enables the indicator for RageCreep and his variants.");
     addItem("Uriel", "Vanilla", "Uriel", "Enables the indicator for Uriel");
     addItem("Gabriel", "Vanilla", "Gabriel", "Enables the indicator for Gabriel");

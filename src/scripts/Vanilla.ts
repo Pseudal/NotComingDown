@@ -17,10 +17,17 @@ export function VanillaElseIfHell(
     if (EntSprite.IsPlaying("Attack") && EntSprite.GetFrame() < 20) {
       //let rotation = EntSprite.Rotation + 90;
       if (ent.Variant == 1) {
-        spawnTracer(ent, ent.SpriteRotation + 90, [0.65, 1.35], 10, 2, 0, 0);
+        if(ent.SpriteRotation == 0 || 180)
+          spawnTracer(ent, ent.SpriteRotation + 90, [0.65, 1.35], 10, false, 2, 0, 0);
+        else
+          spawnTracer(ent, ent.SpriteRotation + 90, [0.65, 1.35], 10, false, 2, 0, 0);
         return;
       } else {
-        spawnTracer(ent, ent.SpriteRotation + 90, [1], 10, 2, 0, 0);
+        if(ent.SpriteRotation == 0 || 180){
+          spawnTracer(ent, ent.SpriteRotation + 90, [1], 10, false, 2, 0, 0);
+        }else{
+          spawnTracer(ent, ent.SpriteRotation + 90, [1], 10, false, 2, 0, 0);
+        }
         return;
       }
     }
@@ -35,12 +42,12 @@ export function VanillaElseIfHell(
   } //uriel
   else if (ent.Type == 271 && IRFconfig.Uriel) {
     if (ent.ToNPC().State == 9 && EntSprite.IsPlaying("Charging")) {
-      spawnTracer(ent, 90, [1], 50, 2, 2, 2);
+      spawnTracer(ent, 90, [1], 50, false, 2, 2, 2);
       return;
     }
     if(BetterMonsters == undefined || ent.Variant == 0){
       if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) {
-          spawnTracer(ent, 90, [0.5, 1.5], 50, 2, 2, 2);
+          spawnTracer(ent, 90, [0.5, 1.5], 50, false, 2, 2, 2);
           return;
       }
     }else{
@@ -48,7 +55,7 @@ export function VanillaElseIfHell(
           data.Rotate = true
           let angle = (ent.Position - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
           let angle2 = (ent.Position - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-          TargetLaserIndicator(ent, [angle2, angle], [215, 145], 40, 1, 1, 1);
+          TargetLaserIndicator(ent, [angle2, angle], [215, 145], 40, false, 1, 1, 1);
       }
     }
 
@@ -68,10 +75,10 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Float") ||
         EntSprite.IsPlaying("Shield"))
     ) {
-      spawnTracer(ent, 90, [1, 2, 3, 4], 50, 2, 2, 2);
+      spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
       return;
-    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging2") && BetterMonsters == undefined) {
-      spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, 2, 2, 2);
+    } else if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging2") && (BetterMonsters == undefined || ent.Variant == 0)) {
+      spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, false, 2, 2, 2);
       return;
     }
 
@@ -90,10 +97,10 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() < 20
     ) {
       if (EntSprite.FlipX == true) {
-        spawnTracer(ent, 90, [4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 20, false, 2, 0, 0);
         return;
       } else {
-        spawnTracer(ent, 90, [2], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -113,7 +120,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() < 25 &&
       EntSprite.GetFrame() > 10
     ) {
-      spawnTracer(ent, 90, [4], 50, 2, 0, 2);
+      spawnTracer(ent, 90, [4], 50, false, 2, 0, 2);
       return;
     }
     if (
@@ -122,7 +129,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() < 25 &&
       EntSprite.GetFrame() > 10
     ) {
-      spawnTracer(ent, 90, [2], 50, 2, 0, 2);
+      spawnTracer(ent, 90, [2], 50, false, 2, 0, 2);
       return;
     }
     if (
@@ -131,7 +138,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() < 25 &&
       EntSprite.GetFrame() > 10
     ) {
-      spawnTracer(ent, 90, [3], 50, 2, 0, 2);
+      spawnTracer(ent, 90, [3], 50, false, 2, 0, 2);
       return;
     }
     if (
@@ -140,7 +147,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() < 25 &&
       EntSprite.GetFrame() > 10
     ) {
-      spawnTracer(ent, 90, [1], 50, 2, 0, 2);
+      spawnTracer(ent, 90, [1], 50, false, 2, 0, 2);
       return;
     }
     if (
@@ -164,7 +171,7 @@ export function VanillaElseIfHell(
       EntSprite.IsPlaying("Attack2") &&
       EntSprite.GetFrame() < 25
     ) {
-      spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+      spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
       return;
     }
     if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() > 25) {
@@ -178,7 +185,7 @@ export function VanillaElseIfHell(
   //Soul sucker
   else if (ent.Type == 61 && ent.Variant == 2 && IRFconfig.SoulSucker) {
     if (ent.HasMortalDamage()) {
-      AfterDedLaserIndicator(ent, 90, [1, 2, 3, 4], 10, 2, 0, 0);
+      AfterDedLaserIndicator(ent, 90, [1, 2, 3, 4], 10, false, 2, 0, 0);
       return;
     }
   }
@@ -190,7 +197,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Down") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -199,16 +206,16 @@ export function VanillaElseIfHell(
         EntSprite.FlipX == false &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 20, false, 2, 0, 0);
         return;
       }
       if (
         ent.ToNPC().State == 9 &&
         EntSprite.IsPlaying("Attack01Horiz") &&
-        EntSprite.FlipX == true &&
+        EntSprite.FlipX == false &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [2], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -216,7 +223,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Up") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [3], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -226,7 +233,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack02Horiz") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [2, 4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [2, 4], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -235,7 +242,7 @@ export function VanillaElseIfHell(
           EntSprite.IsPlaying("Attack02Down")) &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [3, 1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3, 1], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -247,7 +254,7 @@ export function VanillaElseIfHell(
           EntSprite.IsPlaying("Attack04Horiz")) &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [1, 2, 3, 4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1, 2, 3, 4], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -278,7 +285,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Down") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [1], 20, 2, 0, 2);
+        spawnTracer(ent, 90, [1], 20, false, 2, 0, 2);
         return;
       }
       if (
@@ -287,7 +294,7 @@ export function VanillaElseIfHell(
         EntSprite.FlipX == false &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [4], 20, 2, 0, 2);
+        spawnTracer(ent, 90, [4], 20, false, 2, 0, 2);
         return;
       }
       if (
@@ -296,7 +303,7 @@ export function VanillaElseIfHell(
         EntSprite.FlipX == true &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [2], 20, 2, 0, 2);
+        spawnTracer(ent, 90, [2], 20, false, 2, 0, 2);
         return;
       }
       if (
@@ -304,7 +311,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Up") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [3], 20, 2, 0, 2);
+        spawnTracer(ent, 90, [3], 20, false, 2, 0, 2);
         return;
       }
     }
@@ -325,19 +332,19 @@ export function VanillaElseIfHell(
     if (ent.ToNPC().State == 13) return;
     if (ent.Variant == 0) {
       if (EntSprite.IsPlaying("AppearLeft") && EntSprite.GetFrame() > 5) {
-        spawnTracer(ent, 90, [2], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 30, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("AppearRight") && EntSprite.GetFrame() > 5) {
-        spawnTracer(ent, 90, [4], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 30, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("AppearUp") && EntSprite.GetFrame() > 5) {
-        spawnTracer(ent, 90, [3], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 20, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("AppearDown") && EntSprite.GetFrame() > 5) {
-        spawnTracer(ent, 90, [1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -358,7 +365,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 891 && IRFconfig.Goat) {
     if (ent.Variant == 1) {
       if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() < 35) {
-        spawnTracer(ent, 90, [1, 2, 3, 4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1, 2, 3, 4], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -373,19 +380,19 @@ export function VanillaElseIfHell(
   else if (ent.Type == 203 && IRFconfig.BrimstoneHead) {
     if (ent.Variant == 0) {
       if (EntSprite.IsPlaying("ShootLeft") && EntSprite.GetFrame() < 30) {
-        spawnTracer(ent, 90, [2], 10, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 10, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("ShootRight") && EntSprite.GetFrame() < 30) {
-        spawnTracer(ent, 90, [4], 10, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 10, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("ShootUp") && EntSprite.GetFrame() < 30) {
-        spawnTracer(ent, 90, [3], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 20, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("ShootDown") && EntSprite.GetFrame() < 30) {
-        spawnTracer(ent, 90, [1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 20, false, 2, 0, 0);
         return;
       }
     }
@@ -406,7 +413,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 81 && IRFconfig.Krampus) {
     if (ent.Variant == 0) {
       if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() < 35) {
-        spawnTracer(ent, 90, [1, 2, 3, 4], 40, 2, 0, 0);
+        spawnTracer(ent, 90, [1, 2, 3, 4], 40, false, 2, 0, 0);
         return;
       }
     }
@@ -417,10 +424,10 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 31 &&
         EntSprite.GetFrame() > 5
       ) {
-        spawnTracer(ent, 90, [1, 2, 3, 4], 40, 2, 0, 0);
+        spawnTracer(ent, 90, [1, 2, 3, 4], 40, false, 2, 0, 0);
       }
       if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() < 35) {
-        spawnTracer(ent, 90, [1, 2, 3, 4, 1.5, 2.5, 3.5, 4.5], 40, 2, 0, 0);
+        spawnTracer(ent, 90, [1, 2, 3, 4, 1.5, 2.5, 3.5, 4.5], 40, false, 2, 0, 0);
         return;
       }
     }
@@ -442,7 +449,7 @@ export function VanillaElseIfHell(
       EntSprite.FlipX == false &&
       EntSprite.GetFrame() < 30
     ) {
-      spawnTracer(ent, 90, [4], 40, 2, 0, 0);
+      spawnTracer(ent, 90, [4], 40, false, 2, 0, 0);
       return;
     }
     if (
@@ -450,7 +457,7 @@ export function VanillaElseIfHell(
       EntSprite.FlipX == true &&
       EntSprite.GetFrame() < 30
     ) {
-      spawnTracer(ent, 90, [2], 40, 2, 0, 0);
+      spawnTracer(ent, 90, [2], 40, false, 2, 0, 0);
       return;
     }
 
@@ -466,7 +473,7 @@ export function VanillaElseIfHell(
     data.Rotate = true;
     if (EntSprite.IsPlaying("BlastStart") && EntSprite.GetFrame() <= 22) {
       let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
-      TargetLaserIndicator(ent, [angle, angle, angle], [0, 120, 240], 30, 2, 0, 0);
+      TargetLaserIndicator(ent, [angle, angle, angle], [0, 120, 240], 30, false, 2, 0, 0);
       return;
     }
 
@@ -485,7 +492,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 60 && ent.Variant == 1 && IRFconfig.BloodEye) {
     if (ent.ToNPC().State == 8 && EntSprite.IsOverlayPlaying("ShootOverlay")) {
       let angle = (ent.Position - Isaac.GetPlayer().Position).GetAngleDegrees();
-      TargetLaserIndicator(ent, [angle], [180], 15, 2, 0, 0);
+      TargetLaserIndicator(ent, [angle], [180], 15, false, 2, 0, 0);
       return;
     }
 
@@ -501,7 +508,7 @@ export function VanillaElseIfHell(
     if (EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() < 23) {
       data.Ambiguous = true;
       data.Mega = false
-      spawnTracer(ent, 90, [1.65, 1.5, 4.5, 4.35], 40, 2, 0, 0);
+      spawnTracer(ent, 90, [1.65, 1.5, 4.5, 4.35], 40, false, 2, 0, 0);
       return;
     }
     if (
@@ -510,7 +517,7 @@ export function VanillaElseIfHell(
     ) {
       data.Ambiguous == false
       data.Mega = true
-      spawnTracer(ent, 90, [1], 40, 2, 0, 0);
+      spawnTracer(ent, 90, [1], 40, false, 2, 0, 0);
       return;
     }
 
@@ -526,11 +533,11 @@ export function VanillaElseIfHell(
   else if (ent.Type == 68 && IRFconfig.Bloat) {
     if (ent.Variant == 1) {
       if (EntSprite.IsPlaying("AttackAlt01") && EntSprite.GetFrame() < 10) {
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
         return;
       }
       if (EntSprite.IsPlaying("AttackAlt02") && EntSprite.GetFrame() < 10) {
-        spawnTracer(ent, 90, [2, 4], 70, 2, 0, 0);
+        spawnTracer(ent, 90, [2, 4], 70, false, 2, 0, 0);
         return;
       }
     }
@@ -556,7 +563,7 @@ export function VanillaElseIfHell(
           ent.ToNPC().State == 9 ||
           ent.ToNPC().State == 11)
       ) {
-        spawnTracer(ent, 90, [1], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -565,7 +572,7 @@ export function VanillaElseIfHell(
         ((EntSprite.FlipX == true && ent.ToNPC().State == 10) ||
           ent.ToNPC().State == 11)
       ) {
-        spawnTracer(ent, 90, [2], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -576,7 +583,7 @@ export function VanillaElseIfHell(
           ent.ToNPC().State == 9 ||
           ent.ToNPC().State == 11)
       ) {
-        spawnTracer(ent, 90, [4], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -586,7 +593,7 @@ export function VanillaElseIfHell(
           ent.ToNPC().State == 9 ||
           ent.ToNPC().State == 11)
       ) {
-        spawnTracer(ent, 90, [3], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 30, false, 2, 0, 0);
         return;
       }
     }
@@ -609,7 +616,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 13 &&
         ent.ToNPC().State == 108
       ) {
-        spawnTracer(ent, 90, [1], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -617,7 +624,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 13 &&
         ent.ToNPC().State == 108
       ) {
-        spawnTracer(ent, 90, [2], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -625,7 +632,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 13 &&
         ent.ToNPC().State == 108
       ) {
-        spawnTracer(ent, 90, [4], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 30, false, 2, 0, 0);
         return;
       }
       if (
@@ -633,7 +640,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 13 &&
         ent.ToNPC().State == 108
       ) {
-        spawnTracer(ent, 90, [3], 30, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 30, false, 2, 0, 0);
         return;
       }
     }
@@ -655,7 +662,7 @@ export function VanillaElseIfHell(
   //BrimBomb
   else if (ent.Type == 4 && ent.Variant == 15 && IRFconfig.BrimBomb) {
     if (EntSprite.IsPlaying("Pulse")) {
-      spawnTracer(ent, 90, [1, 2, 3, 4], 0, 2, 0, 0);
+      spawnTracer(ent, 90, [1, 2, 3, 4], 0, false, 2, 0, 0);
       return;
     }
 
@@ -674,7 +681,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() > 80 &&
       EntSprite.GetFrame() < 102
     ) {
-      spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+      spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
       return;
     }
 
@@ -693,7 +700,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 20 &&
         ent.ToNPC().State == 9
       ) {
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
         return;
       }
 
@@ -705,7 +712,7 @@ export function VanillaElseIfHell(
       ) {
         let angle = (Vector((ent.Position.X+100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X, (Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
         let angle2 = (Vector((ent.Position.X-100), ent.Position.Y) - Vector(Isaac.GetPlayer().Position.X,(Isaac.GetPlayer().Position.Y+30))).GetAngleDegrees();
-        TargetLaserIndicator(ent, [angle2, angle], [180, 180], 40, 2, 0, 0, [100,-100]);
+        TargetLaserIndicator(ent, [angle2, angle], [180, 180], 40, false, 2, 0, 0, [100,-100]);
         return;
       }
 
@@ -725,7 +732,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 20 &&
         ent.ToNPC().State == 9
       ) {
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
         return;
       }
 
@@ -734,7 +741,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 15 &&
         ent.ToNPC().State == 10
       ) {
-        spawnTracer(ent, 90, [1.3, 4.7], 40, 2, 0, 0, [110, -110]);
+        spawnTracer(ent, 90, [1.3, 4.7], 40, false, 2, 0, 0, [110, -110]);
         return;
       }
 
@@ -752,7 +759,7 @@ export function VanillaElseIfHell(
     //The lamb
   } else if (ent.Type == 273 && IRFconfig.TheLamb) {
     if (EntSprite.IsPlaying("HeadCharge") && ent.ToNPC().State == 11) {
-      spawnTracer(ent, 90, [1, 2, 3, 4], 50, 2, 0, 0);
+      spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 0, 0);
       return;
     }
 
@@ -770,7 +777,7 @@ export function VanillaElseIfHell(
       ent.ToNPC().State == 8 &&
       EntSprite.FlipX == false
     ) {
-      spawnTracer(ent, 90, [4], 45, 2, 2, 2);
+      spawnTracer(ent, 90, [4], 45, false, 2, 2, 2);
       return;
     }
     if (
@@ -778,15 +785,15 @@ export function VanillaElseIfHell(
       ent.ToNPC().State == 8 &&
       EntSprite.FlipX == true
     ) {
-      spawnTracer(ent, 90, [2], 45, 2, 2, 2);
+      spawnTracer(ent, 90, [2], 45, false, 2, 2, 2);
       return;
     }
     if (EntSprite.IsPlaying("BrimstoneStartDown") && ent.ToNPC().State == 8) {
-      spawnTracer(ent, 90, [1], 45, 2, 2, 2);
+      spawnTracer(ent, 90, [1], 45, false, 2, 2, 2);
       return;
     }
     if (EntSprite.IsPlaying("BrimstoneStartUp") && ent.ToNPC().State == 8) {
-      spawnTracer(ent, 90, [3], 45, 2, 2, 2);
+      spawnTracer(ent, 90, [3], 45, false, 2, 2, 2);
       return;
     }
 
@@ -809,7 +816,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Down") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -818,7 +825,7 @@ export function VanillaElseIfHell(
         EntSprite.FlipX == false &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [4], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -827,7 +834,7 @@ export function VanillaElseIfHell(
         EntSprite.FlipX == true &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [2], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [2], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -835,7 +842,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack01Up") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [3], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3], 20, false, 2, 0, 0);
         return;
       }
 
@@ -858,7 +865,7 @@ export function VanillaElseIfHell(
         EntSprite.IsPlaying("Attack02Horiz") &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [2, 4], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [2, 4], 20, false, 2, 0, 0);
         return;
       }
       if (
@@ -867,7 +874,7 @@ export function VanillaElseIfHell(
           EntSprite.IsPlaying("Attack02Down")) &&
         EntSprite.GetFrame() < 30
       ) {
-        spawnTracer(ent, 90, [3, 1], 20, 2, 0, 0);
+        spawnTracer(ent, 90, [3, 1], 20, false, 2, 0, 0);
         return;
       }
 
@@ -888,7 +895,7 @@ export function VanillaElseIfHell(
   } else if (ent.Type == 294 && IRFconfig.UltraGreed) {
     if (ent.ToNPC().State == 9 && EntSprite.IsPlaying("Open")) {
       //let rotation = EntSprite.Rotation + 90;
-      spawnTracer(ent, ent.SpriteRotation + 90, [1], 0, 2, 0, 0);
+      spawnTracer(ent, ent.SpriteRotation + 90, [1], 0, false, 2, 0, 0);
       return;
     }
 
@@ -907,7 +914,7 @@ export function VanillaElseIfHell(
         ent.ToNPC().State == 9 &&
         EntSprite.GetFrame() < 20
       ) {
-        spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+        spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
         return;
       }
     }
@@ -917,7 +924,7 @@ export function VanillaElseIfHell(
         ent.ToNPC().State == 9 &&
         EntSprite.GetFrame() < 20
       ) {
-        spawnTracer(ent, 90, [0.5, 1.5], 50, 2, 0, 0);
+        spawnTracer(ent, 90, [0.5, 1.5], 50, false, 2, 0, 0);
         return;
       }
     }
@@ -932,7 +939,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 45 && IRFconfig.Mom) {
     if (EntSprite.IsPlaying("EyeLaser") && EntSprite.GetFrame() < 45 && EntSprite.GetFrame() > 20) {
       //let rotation = EntSprite.Rotation + 90;
-      spawnTracer(ent, ent.SpriteRotation + 90, [1], 0, 2, 0, 0);
+      spawnTracer(ent, ent.SpriteRotation + 90, [1], 0, false, 2, 0, 0);
       return;
     }
 
@@ -947,7 +954,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 274 && IRFconfig.MegaSatan) {
     data.Mega = true
     if (EntSprite.IsPlaying("Charging") && ent.ToNPC().State == 8) {
-      spawnTracer(ent, 90, [1], 50, 2, 0, 0);
+      spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
       return;
     }
 
@@ -962,7 +969,7 @@ export function VanillaElseIfHell(
   else if (ent.Type == 951 && IRFconfig.TheBeast) {
     data.Mega = true
     if (EntSprite.IsPlaying("SuckEnd") && EntSprite.GetFrame() > 18) {
-      spawnTracer(ent, 90, [2], 0, 3, 0, 0);
+      spawnTracer(ent, 90, [2], 0, false, 3, 0, 0);
       return;
     }
 

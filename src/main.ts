@@ -32,6 +32,7 @@ function LaserIndicator(
   angle,
   mult: any[],
   position,
+  weirdHitbox,
   r?,
   g?,
   b?,
@@ -39,6 +40,7 @@ function LaserIndicator(
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
+  if(IRFconfig.Hitbox == true && weirdHitbox == false)position = 0;
 
   if (IRFconfig.Laser == true) {
     if (data.Danger == 1) {
@@ -63,6 +65,7 @@ function LaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
+      if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
         // indicator.TearFlags = bitFlags(TearFlag.HOMING)
         indicator.Angle = angle * mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
@@ -93,6 +96,7 @@ function LaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
+        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
         if (data.Mega == true) {
@@ -122,13 +126,15 @@ function TargetLaserIndicator(
   angle: any[],
   mult: any[],
   position,
+  weirdHitbox,
   r?,
   g?,
   b?,
-  positionX: any[],
+  positionX?: any[],
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
+  if(IRFconfig.Hitbox == true && weirdHitbox == false)position = 0;
 
   if (IRFconfig.Laser == true) {
 
@@ -158,7 +164,7 @@ function TargetLaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
-
+        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
         indicator.Angle = angle[index] + mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
 
@@ -202,6 +208,7 @@ function TargetLaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
+        if(IRFconfig.Hitbox == true && weirdHitbox == false){indicator.RenderZOffset = -6999;}
         if (ent.Type == 60)
           indicator.Position = Vector(
             ent.Position.X - positionX[index],
@@ -233,8 +240,12 @@ function RemoveLaserIndicator(ent) {
   });
 }
 
-function AfterDedLaserIndicator(ent, angle, mult: any[], position) {
-  let data = ent.GetData() as DangerData;
+function AfterDedLaserIndicator(ent, angle, mult: any[], position, vertical) {
+  let data = ent.GetData() as DangerData
+  if(IRFconfig.Hitbox == true && vertical == false){
+    position = 0;
+  }
+
   if (data.Danger !== 1) {
     data.IndicatorBrim = [] as Entity[];
     for (let index = 0; index < mult.length; index++) {
@@ -246,6 +257,9 @@ function AfterDedLaserIndicator(ent, angle, mult: any[], position) {
         Vector(0, 0).Rotated(0),
         undefined,
       ).ToLaser();
+      if(IRFconfig.Hitbox == true && vertical == false){
+          indicator.RenderZOffset = -6999;
+      }
       // indicator.TearFlags = bitFlags(TearFlag.HOMING)
       indicator.Angle = angle * mult[index];
       indicator.Color = Color(1, 0.0, 0.0, 0);

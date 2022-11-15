@@ -1,5 +1,6 @@
 export let IRFconfig = {
   Laser:false,
+  Hitbox:false,
   RageCreep: true,
   Uriel: true,
   Gabriel: true,
