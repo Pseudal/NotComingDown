@@ -3,63 +3,114 @@ import { printConsole } from "isaacscript-common";
 declare const BetterMonsters: unknown | undefined;
 
 //! I hate Delirium
-export function IHateDelirium(ent, EntSprite, spawnDanger, data, remove, IRFconfig):void {
+export function IHateDelirium(
+  ent,
+  EntSprite,
+  data,
+  IRFconfig,
+  spawnTracer,
+  RemoveLaserIndicator,
+  AfterDedLaserIndicator,
+  TargetLaserIndicator,
+):void {
   //leaper
   if (ent.Type == 412 && IRFconfig.Delirium){
-    //printConsole(`${EntSprite.GetAnimation()} ${EntSprite.GetFrame()}`)
-      //mom & satan
-      if(EntSprite.IsPlaying("Stomp")){
-        if(EntSprite.GetFrame() < 29 )
-            spawnDanger(ent)
-        if((EntSprite.IsPlaying("Stomp") && EntSprite.GetFrame() >= 30 )|| EntSprite.IsFinished("Stomp")){
-          if(data.ZoneLink !== undefined)
-            remove(data)
-        }
+    printConsole(EntSprite.GetFilename())
+      if (//DarkOne
+        ent.ToNPC().State == 9 &&
+        EntSprite.IsPlaying("Attack2") &&
+        EntSprite.GetFrame() < 25 &&
+        EntSprite.GetFilename() == "gfx/267.000 Dark One.anm2"
+      ) {
+        spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
+        return;
       }
-      //Monstro & peep
-      if(EntSprite.IsPlaying("JumpDown")){
-        if(EntSprite.GetFrame() < 29 )
-            spawnDanger(ent)
-        if((EntSprite.IsPlaying("JumpDown") && EntSprite.GetFrame() >= 30 )|| EntSprite.IsFinished("JumpDown")){
-          if(data.ZoneLink !== undefined)
-            remove(data)
-        }
-      }
-      //Daddy
-      if(!BetterMonsters !== undefined){
-        if(EntSprite.IsPlaying("StompArm") || EntSprite.IsPlaying("StompLeg")|| EntSprite.IsPlaying("Down")){
-          if(EntSprite.GetFrame() < 10 )
-              spawnDanger(ent)
-          if(((EntSprite.IsPlaying("StompArm")|| EntSprite.IsPlaying("StompLeg")|| EntSprite.IsPlaying("Down")) && EntSprite.GetFrame() >= 11 )|| EntSprite.IsFinished("StompArm")||EntSprite.IsFinished("StompLeg")||EntSprite.IsFinished("Down")){
-            if(data.ZoneLink !== undefined)
-              remove(data)
+
+      //Uriel
+      if(EntSprite.GetFilename() == "MGgfx/271.000_angel.anm2"){
+        if ((EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() > 25) || EntSprite.IsFinished("Attack2")) {
+          if (data.IndicatorBrim) {
+            data.Danger = 0;
+            RemoveLaserIndicator(ent);
+            return;
           }
         }
-      }else{
-        if(EntSprite.IsPlaying("StompArm") || EntSprite.IsPlaying("StompLeg")|| EntSprite.IsPlaying("Up")){
-          if(EntSprite.GetFrame() < 10 )
-              spawnDanger(ent)
-          if(((EntSprite.IsPlaying("StompArm")|| EntSprite.IsPlaying("StompLeg")|| EntSprite.IsPlaying("Down")) && EntSprite.GetFrame() >= 11 )|| EntSprite.IsFinished("StompArm")||EntSprite.IsFinished("StompLeg")||EntSprite.IsFinished("Down")||(!EntSprite.IsPlaying("Down") && EntSprite.IsFinished("Up"))){
-            if(data.ZoneLink !== undefined)
-              remove(data)
+        if (ent.ToNPC().State == 9 && EntSprite.IsPlaying("Charging")) {
+          spawnTracer(ent, 90, [1], 50, false, 2, 2, 2);
+          return;
+        }
+        if (BetterMonsters == undefined || ent.Variant == 0) {
+          if (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) {
+            spawnTracer(ent, 90, [0.5, 1.5], 50, true, 2, 2, 2);
+            return;
+          }
+        } else {
+          if (
+            (ent.ToNPC().State == 10 && EntSprite.IsPlaying("Charging")) ||
+            (ent.ToNPC().State == 12 &&
+              EntSprite.IsPlaying("LaserShot") &&
+              EntSprite.GetFrame() <= 5 &&
+              ent.Variant == 1)
+          ) {
+            data.Rotate = true;
+            let angle = (
+              ent.Position -
+              Vector(
+                ent.ToNPC().GetPlayerTarget().Position.X,
+                ent.ToNPC().GetPlayerTarget().Position.Y + 30,
+              )
+            ).GetAngleDegrees(); //this is used to calculate the angle between isaac and the entity, technically, where will the entity shoot
+            TargetLaserIndicator(
+              //Target is a little different than the basic function.
+              ent,
+              [angle, angle], //the angle is put here instead of the basic 90°, becomes a table
+              [215, 145], //A bit different than the multiplier, but works the same way. Manages the number of lasers and changes the angle. for example, if the laser is to be directed at isaac, the value should be 180. to give an image, https://imgur.com/QddRjUG
+              40,
+              false,
+              1,
+              1,
+              1,
+            );
+          }
+        }
+        if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() >= 5) {
+          if (data.IndicatorBrim) {
+            data.Danger = 0;
+            RemoveLaserIndicator(ent);
+            return;
           }
         }
       }
-      //fatty
-      if((EntSprite.IsPlaying("Jumping") && EntSprite.GetFrame() > 8)||( EntSprite.IsPlaying("Landing") && EntSprite.GetFrame() < 10)){
-            spawnDanger(ent)
 
-        if((EntSprite.IsPlaying("Landing") && EntSprite.GetFrame() >= 5 )|| EntSprite.IsFinished("Landing")||(!EntSprite.IsPlaying("Jumping") && EntSprite.IsFinished("Landing"))){
-          if(data.ZoneLink !== undefined)
-            remove(data)
+      //Gabriel
+    if(EntSprite.GetFilename() == "MGgfx/272.000_angel2.anm2"){
+
+        if (
+          ent.ToNPC().State == 9 &&
+          (EntSprite.IsPlaying("Charging") ||
+            EntSprite.IsPlaying("Float") ||
+            EntSprite.IsPlaying("Shield"))
+        ) {
+          if(BetterMonsters !== undefined && ent.Variant == 1)
+            spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
+          else
+            spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
+          return;
+        } else if (
+          ent.ToNPC().State == 10 &&
+          EntSprite.IsPlaying("Charging2") &&
+          (BetterMonsters == undefined || ent.Variant == 0)
+        ) {
+          spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
+          return;
         }
-      }
-      if((EntSprite.IsPlaying("FlyUp") && EntSprite.GetFrame() > 28)||( EntSprite.IsPlaying("FlyDown") && EntSprite.GetFrame() < 9)){
-        spawnDanger(ent, 0.03)
 
-      if((EntSprite.IsPlaying("FlyDown") && EntSprite.GetFrame() >= 10 )|| EntSprite.IsFinished("FlyDown")||(!EntSprite.IsPlaying("FlyUp") && EntSprite.IsFinished("FlyDown"))){
-        if(data.ZoneLink !== undefined)
-          remove(data)
+        if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() > 4) {
+          if (data.IndicatorBrim) {
+            data.Danger = 0;
+            RemoveLaserIndicator(ent);
+            return;
+          }
         }
       }
     }

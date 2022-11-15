@@ -31,4 +31,5 @@ export let IRFconfig = {
   Mom: true,
   MegaSatan: true,
   TheBeast: true,
+  Delirium: true,
 }

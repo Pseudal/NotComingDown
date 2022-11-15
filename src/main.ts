@@ -5,6 +5,7 @@ import * as json from "json";
 import { IRFconfig } from "./scripts/Config";
 import { ModConfig } from "./scripts/modConfigMenu";
 import { VanillaElseIfHell } from "./scripts/Vanilla";
+import { IHateDelirium } from "./scripts/DeliriumHell";
 interface DangerData {
   Danger: int | undefined;
   IndicatorBrim: Entity[];
@@ -297,6 +298,16 @@ function postRender() {
     }
 
     VanillaElseIfHell(
+      ent,
+      EntSprite,
+      data,
+      IRFconfig,
+      LaserIndicator,
+      RemoveLaserIndicator,
+      AfterDedLaserIndicator,
+      TargetLaserIndicator,
+    );
+    IHateDelirium(
       ent,
       EntSprite,
       data,
