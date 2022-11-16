@@ -13,21 +13,29 @@ export function IHateDelirium(
   AfterDedLaserIndicator,
   TargetLaserIndicator,
 ):void {
-  //leaper
   if (ent.Type == 412 && IRFconfig.Delirium){
     printConsole(EntSprite.GetFilename())
+    let fileName:string = EntSprite.GetFilename()
+    
+    if(fileName.includes("Dark One.anm2")){
       if (//DarkOne
         ent.ToNPC().State == 9 &&
         EntSprite.IsPlaying("Attack2") &&
-        EntSprite.GetFrame() < 25 &&
-        EntSprite.GetFilename() == "gfx/267.000 Dark One.anm2"
+        EntSprite.GetFrame() < 25
       ) {
         spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
         return;
       }
-
+      if (EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() > 25) {
+        if (data.IndicatorBrim) {
+          data.Danger = 0;
+          RemoveLaserIndicator(ent);
+          return;
+        }
+      }
+    }
       //Uriel
-      if(EntSprite.GetFilename() == "MGgfx/271.000_angel.anm2"){
+      if(fileName.includes("angel.anm2")){
         if ((EntSprite.IsPlaying("Attack2") && EntSprite.GetFrame() > 25) || EntSprite.IsFinished("Attack2")) {
           if (data.IndicatorBrim) {
             data.Danger = 0;
@@ -83,7 +91,7 @@ export function IHateDelirium(
       }
 
       //Gabriel
-    if(EntSprite.GetFilename() == "MGgfx/272.000_angel2.anm2"){
+    if(fileName.includes("angel2.anm2")){
 
         if (
           ent.ToNPC().State == 9 &&
