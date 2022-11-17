@@ -3,9 +3,9 @@ import { ModCallback } from "isaac-typescript-definitions";
 
 import * as json from "json";
 import { IRFconfig } from "./scripts/Config";
+import { IHateDelirium } from "./scripts/DeliriumHell";
 import { ModConfig } from "./scripts/modConfigMenu";
 import { VanillaElseIfHell } from "./scripts/Vanilla";
-import { IHateDelirium } from "./scripts/DeliriumHell";
 interface DangerData {
   Danger: int | undefined;
   IndicatorBrim: Entity[];
@@ -41,7 +41,7 @@ function LaserIndicator(
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
-  if(IRFconfig.Hitbox == true && weirdHitbox == true)position = 0;
+  if (IRFconfig.Hitbox == true && weirdHitbox == true) position = 0;
 
   if (IRFconfig.Laser == true) {
     if (data.Danger == 1) {
@@ -66,7 +66,9 @@ function LaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
-        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
+        if (IRFconfig.Hitbox == true && weirdHitbox == true) {
+          indicator.RenderZOffset = -6999;
+        }
         // indicator.TearFlags = bitFlags(TearFlag.HOMING)
         indicator.Angle = angle * mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
@@ -97,7 +99,9 @@ function LaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
-        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
+        if (IRFconfig.Hitbox == true && weirdHitbox == true) {
+          indicator.RenderZOffset = -6999;
+        }
         indicator.Timeout = 30;
         indicator.LifeSpan = 30;
         if (data.Mega == true) {
@@ -135,12 +139,10 @@ function TargetLaserIndicator(
 ) {
   let data = ent.GetData() as DangerData;
   if (!positionX) positionX = [0, 0, 0, 0, 0, 0, 0, 0];
-  if(IRFconfig.Hitbox == true && weirdHitbox == true)position = 0;
+  if (IRFconfig.Hitbox == true && weirdHitbox == true) position = 0;
 
   if (IRFconfig.Laser == true) {
-
     if (data.Danger == 1) {
-
       for (let index = 0; index < data.IndicatorBrim.length; index++) {
         const indicator = data.IndicatorBrim[index];
         indicator.Position = Vector(
@@ -151,9 +153,7 @@ function TargetLaserIndicator(
         indicator.Color = Color.Lerp(indicator.Color, Color(r, g, b, 2), 0.2);
       }
       return;
-
     } else {
-
       let i = 0;
       data.IndicatorBrim = [] as Entity[];
       for (let index = 0; index < mult.length; index++) {
@@ -165,7 +165,9 @@ function TargetLaserIndicator(
           Vector(0, 0).Rotated(0),
           undefined,
         ).ToLaser();
-        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
+        if (IRFconfig.Hitbox == true && weirdHitbox == true) {
+          indicator.RenderZOffset = -6999;
+        }
         indicator.Angle = angle[index] + mult[index];
         indicator.Color = Color(r - 1, g, b, 0);
 
@@ -173,9 +175,7 @@ function TargetLaserIndicator(
       }
       data.Danger = 1;
     }
-
   } else {
-
     if (data.Danger == 1) {
       for (let index = 0; index < data.IndicatorBrim.length; index++) {
         const indicator = data.IndicatorBrim[index];
@@ -189,16 +189,15 @@ function TargetLaserIndicator(
             ent.Position.X - positionX[index],
             ent.Position.Y - (position - 20),
           );
-        if (data.Rotate == true){
+        if (data.Rotate == true) {
           indicator.TargetPosition = Vector(1, 0).Rotated(
             angle[index] + mult[index],
-          );}
+          );
+        }
         indicator.Color = Color.Lerp(indicator.Color, Color(r, g, b, 2), 0.2);
       }
       return;
-
     } else {
-
       data.IndicatorBrim = [] as Entity[];
       for (let index = 0; index < mult.length; index++) {
         let indicator = Isaac.Spawn(
@@ -209,7 +208,9 @@ function TargetLaserIndicator(
           Vector(0.001, 0),
           ent,
         ).ToEffect();
-        if(IRFconfig.Hitbox == true && weirdHitbox == true){indicator.RenderZOffset = -6999;}
+        if (IRFconfig.Hitbox == true && weirdHitbox == true) {
+          indicator.RenderZOffset = -6999;
+        }
         if (ent.Type == 60)
           indicator.Position = Vector(
             ent.Position.X - positionX[index],
@@ -242,8 +243,8 @@ function RemoveLaserIndicator(ent) {
 }
 
 function AfterDedLaserIndicator(ent, angle, mult: any[], position, vertical) {
-  let data = ent.GetData() as DangerData
-  if(IRFconfig.Hitbox == true && vertical == false){
+  let data = ent.GetData() as DangerData;
+  if (IRFconfig.Hitbox == true && vertical == false) {
     position = 0;
   }
 
@@ -258,8 +259,8 @@ function AfterDedLaserIndicator(ent, angle, mult: any[], position, vertical) {
         Vector(0, 0).Rotated(0),
         undefined,
       ).ToLaser();
-      if(IRFconfig.Hitbox == true && vertical == false){
-          indicator.RenderZOffset = -6999;
+      if (IRFconfig.Hitbox == true && vertical == false) {
+        indicator.RenderZOffset = -6999;
       }
       // indicator.TearFlags = bitFlags(TearFlag.HOMING)
       indicator.Angle = angle * mult[index];
@@ -297,17 +298,19 @@ function postRender() {
       }
     }
 
+    if (ent.Type == 412 && IRFconfig.Delirium) {
+      IHateDelirium(
+        ent,
+        EntSprite,
+        data,
+        IRFconfig,
+        LaserIndicator,
+        RemoveLaserIndicator,
+        AfterDedLaserIndicator,
+        TargetLaserIndicator,
+      );
+    }
     VanillaElseIfHell(
-      ent,
-      EntSprite,
-      data,
-      IRFconfig,
-      LaserIndicator,
-      RemoveLaserIndicator,
-      AfterDedLaserIndicator,
-      TargetLaserIndicator,
-    );
-    IHateDelirium(
       ent,
       EntSprite,
       data,

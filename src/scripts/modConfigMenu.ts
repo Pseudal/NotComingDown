@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.7.5`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.8`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -78,10 +78,11 @@ export function ModConfig(IRFconfig) {
     addItem("Mom", "Vanilla", "Mom", "Enables the indicator for Mom(door).");
     addItem("MegaSatan", "Vanilla", "Mega Satan", "Enables the indicator for Mega Satan.");
     addItem("TheBeast", "Vanilla", "The Beast", "Enables the indicator for The Beast.");
+    addItem("Delirium", "Vanilla", "Delirium", "Enables the indicator for Delirium.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix for gabriel ");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs, sisters vis ");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+added 'real hitbox' option ");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix for tracing on pets or other.");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Delirium v1(Disabled by default)");
   }
 }
