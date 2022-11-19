@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.8`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.9`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -81,8 +81,6 @@ export function ModConfig(IRFconfig) {
     addItem("Delirium", "Vanilla", "Delirium", "Enables the indicator for Delirium.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix some bugs");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix for tracing on pets or other.");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Delirium v1(Disabled by default)");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix Gish");
   }
 }

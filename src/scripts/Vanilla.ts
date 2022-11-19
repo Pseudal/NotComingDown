@@ -135,7 +135,7 @@ export function VanillaElseIfHell(
       }
     }
   } //monstro ii
-  else if (ent.Type == 43 && IRFconfig.Monstro) {
+  else if (ent.Type == 43 && ent.Variant == 0 && IRFconfig.Monstro) {
     if (
       ent.ToNPC().State == 8 &&
       EntSprite.IsPlaying("Taunt") &&
