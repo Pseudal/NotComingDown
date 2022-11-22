@@ -5,6 +5,7 @@ import * as json from "json";
 import { IRFconfig } from "./scripts/Config";
 import { IHateDelirium } from "./scripts/DeliriumHell";
 import { ModConfig } from "./scripts/modConfigMenu";
+import { RevCompatibility } from "./scripts/Rev";
 import { VanillaElseIfHell } from "./scripts/Vanilla";
 interface DangerData {
   Danger: int | undefined;
@@ -19,7 +20,7 @@ declare const ModConfigMenu: unknown | undefined;
 //Compatibility
 // declare const FiendFolio: unknown | undefined;
 // declare const SWAMPY: unknown | undefined;
-// declare const REVEL: unknown | undefined;
+declare const REVEL: unknown | undefined;
 
 main();
 
@@ -320,6 +321,19 @@ function postRender() {
       AfterDedLaserIndicator,
       TargetLaserIndicator,
     );
+    if(REVEL !== undefined){
+      RevCompatibility(
+        ent,
+        EntSprite,
+        data,
+        IRFconfig,
+        LaserIndicator,
+        RemoveLaserIndicator,
+        AfterDedLaserIndicator,
+        TargetLaserIndicator,
+        REVEL
+      );
+    }
   });
   //! security
 }

@@ -32,4 +32,5 @@ export let IRFconfig = {
   MegaSatan: true,
   TheBeast: true,
   Delirium: false,
+  Pride: true,
 }
