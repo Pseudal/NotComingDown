@@ -1,4 +1,5 @@
 import { printConsole } from "isaacscript-common";
+let timer = 0
 
 declare const BetterMonsters: unknown | undefined;
 
@@ -13,7 +14,9 @@ export function VanillaElseIfHell(
   RemoveLaserIndicator,
   AfterDedLaserIndicator,
   TargetLaserIndicator,
+  time
 ): void {
+  timer = time
   //printConsole(EntSprite.GetFilename())
   if (ent.Type == 241 && IRFconfig.RageCreep) {
     //spider creep
@@ -1117,8 +1120,10 @@ export function VanillaElseIfHell(
     }
   }
   if(ent.Type == 62 && ent.Variant == 2){
-    printConsole(`${EntSprite.GetAnimation()}  ${EntSprite.GetFrame()}`)
-    printConsole(`${ent.ToNPC().State}`)
+    if(EntSprite.IsPlaying("Body3Wiggle") || EntSprite.IsPlaying("Body1Wiggle") || EntSprite.IsPlaying("Body2Wiggle")){return}
+    // printConsole(`${EntSprite.GetOverlayAnimation()}`)
+    // printConsole(`${EntSprite.GetAnimation()}  ${EntSprite.GetFrame()}`)
+    // printConsole(`${ent.ToNPC().State}`)
     if(ent.ToNPC().State == 8 && EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() < 20){
       let angle = (
         ent.Position - ent.ToNPC().GetPlayerTarget().Position
@@ -1126,23 +1131,21 @@ export function VanillaElseIfHell(
       TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
       return;
     }
-    if(ent.ToNPC().State == 10 && EntSprite.IsPlaying("Body3Wiggle") && EntSprite.GetFrame() < 5){
-      let angle = (
-        ent.Position - ent.ToNPC().GetPlayerTarget().Position
-      ).GetAngleDegrees();
-      TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
-      return;
+    if(ent.ToNPC().State == 10 ){printConsole(`${ent.GetSprite ().GetAnimation()}`)
+      if(EntSprite.IsPlaying("Attack3ShootDown")|| EntSprite.IsPlaying("Attack3ShootUp") || EntSprite.IsPlaying("Attack3ShootLeft") || EntSprite.IsPlaying("Attack3ShootRight") || EntSprite.IsPlaying("Attack3ShootUpLeft") || EntSprite.IsPlaying("Attack3ShootUpRight") || EntSprite.IsPlaying("Attack3ShootDownLeft") || EntSprite.IsPlaying("Attack3ShootDownRight")){
+
+        let angle = (
+          ent.Position - ent.ToNPC().GetPlayerTarget().Position
+        ).GetAngleDegrees();
+        TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
+        return;
+      }
     }
-    if(ent.ToNPC().State == 8 && EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() > 20){
-      data.Danger = 0;
-      RemoveLaserIndicator(ent)
-      return;
-    }
-    if(ent.ToNPC().State == 10 && EntSprite.IsPlaying("Body3Wiggle") && EntSprite.GetFrame() > 5){
-      data.Danger = 0;
-      RemoveLaserIndicator(ent)
-      return;
-    }
+    // if(ent.ToNPC().State == 10 && EntSprite.IsPlaying("Body3Wiggle") && EntSprite.GetFrame() > 5){
+    //   data.Danger = 0;
+    //   RemoveLaserIndicator(ent)
+    //   return;
+    // }
     // if(EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() == 10){
     //   //data.Rotate = true;
     //   let angle = (

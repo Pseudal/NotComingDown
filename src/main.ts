@@ -320,6 +320,7 @@ function postRender() {
       RemoveLaserIndicator,
       AfterDedLaserIndicator,
       TargetLaserIndicator,
+      time,
     );
     if(REVEL !== undefined){
       RevCompatibility(
