@@ -1,5 +1,6 @@
 import { printConsole } from "isaacscript-common";
-let timer = 0
+let frailbaseset = 0
+let frailbase = 0
 
 declare const BetterMonsters: unknown | undefined;
 
@@ -16,7 +17,6 @@ export function VanillaElseIfHell(
   TargetLaserIndicator,
   time
 ): void {
-  timer = time
   //printConsole(EntSprite.GetFilename())
   if (ent.Type == 241 && IRFconfig.RageCreep) {
     //spider creep
@@ -1120,7 +1120,6 @@ export function VanillaElseIfHell(
     }
   }
   if(ent.Type == 62 && ent.Variant == 2){
-    if(EntSprite.IsPlaying("Body3Wiggle") || EntSprite.IsPlaying("Body1Wiggle") || EntSprite.IsPlaying("Body2Wiggle")){return}
     // printConsole(`${EntSprite.GetOverlayAnimation()}`)
     // printConsole(`${EntSprite.GetAnimation()}  ${EntSprite.GetFrame()}`)
     // printConsole(`${ent.ToNPC().State}`)
@@ -1131,41 +1130,59 @@ export function VanillaElseIfHell(
       TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
       return;
     }
-    if(ent.ToNPC().State == 10 ){printConsole(`${ent.GetSprite ().GetAnimation()}`)
-      if(EntSprite.IsPlaying("Attack3ShootDown")|| EntSprite.IsPlaying("Attack3ShootUp") || EntSprite.IsPlaying("Attack3ShootLeft") || EntSprite.IsPlaying("Attack3ShootRight") || EntSprite.IsPlaying("Attack3ShootUpLeft") || EntSprite.IsPlaying("Attack3ShootUpRight") || EntSprite.IsPlaying("Attack3ShootDownLeft") || EntSprite.IsPlaying("Attack3ShootDownRight")){
-
+    if(ent.ToNPC().State == 10){
+      printConsole(`${ent.ToNPC().V1} ${ent.ToNPC().V2}`)
+      if(frailbaseset == 0 && ent.ToNPC().V2 !== 0){
+        printConsole(`trigger1`)
+        frailbase = ent.ToNPC().V2
+        frailbaseset = 1
+      }
+      if(frailbaseset == 1 && ent.ToNPC().V2 !== frailbase){
+        printConsole(`trigger2`)
+        frailbase = ent.ToNPC().V2
+        frailbaseset = 2
+      }
+      if(frailbaseset == 2 && ent.ToNPC().V2 !== frailbase){
+        printConsole(`trigger3`)
+        frailbase = ent.ToNPC().V2
+        frailbaseset = 3
+      }
+      if(frailbaseset == 3 && ent.ToNPC().V2 !== frailbase){
+        printConsole(`trigger4`)
+        frailbase = ent.ToNPC().V2
+        frailbaseset = 4
+      }
+      if(frailbaseset == 4){
+        printConsole(`trigger5`)
         let angle = (
           ent.Position - ent.ToNPC().GetPlayerTarget().Position
         ).GetAngleDegrees();
         TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
         return;
       }
-    }
-    // if(ent.ToNPC().State == 10 && EntSprite.IsPlaying("Body3Wiggle") && EntSprite.GetFrame() > 5){
-    //   data.Danger = 0;
-    //   RemoveLaserIndicator(ent)
-    //   return;
-    // }
-    // if(EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() == 10){
-    //   //data.Rotate = true;
-    //   let angle = (
-    //     ent.Position - ent.ToNPC().GetPlayerTarget().Position
-    //   ).GetAngleDegrees();
-    //   TargetLaserIndicator(ent, [angle], [180], 40, false, 2, 0, 0);
-    //   return;
-    // }
+      // if(frailbase !== ent.ToNPC().V2 && frailbaseset == 1){
+      //   spawnTracer(ent, ent.ToNPC().V2, [1], 40, false, 3, 0, 0);
+      // }
 
-    // if(EntSprite.IsPlaying("Attack3ShootDown")|| EntSprite.IsPlaying("Attack3ShootUp") || EntSprite.IsPlaying("Attack3ShootLeft") || EntSprite.IsPlaying("Attack3ShootRight") || EntSprite.IsPlaying("Attack3ShootUpLeft") || EntSprite.IsPlaying("Attack3ShootUpRight") || EntSprite.IsPlaying("Attack3ShootDownLeft") || EntSprite.IsPlaying("Attack3ShootDownRight")){
-    //   let angle = (
-    //     ent.Position - ent.ToNPC().GetPlayerTarget().Position
-    //   ).GetAngleDegrees();
-    //   TargetLaserIndicator(ent, [angle], [180], 40, false, 2, 0, 0);
-    //   return;
-    // }
-    // if(EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() > 20){
-    //   data.Danger = 0;
-    //   RemoveLaserIndicator(ent)
-    //   return;
-    // }
+
+      // if(EntSprite.IsPlaying("Attack3ShootDown")|| EntSprite.IsPlaying("Attack3ShootUp") || EntSprite.IsPlaying("Attack3ShootLeft") || EntSprite.IsPlaying("Attack3ShootRight") || EntSprite.IsPlaying("Attack3ShootUpLeft") || EntSprite.IsPlaying("Attack3ShootUpRight") || EntSprite.IsPlaying("Attack3ShootDownLeft") || EntSprite.IsPlaying("Attack3ShootDownRight")){
+      //   data.Rotate = true
+      //   let angle = (
+      //     ent.Position - ent.ToNPC().GetPlayerTarget().Position
+      //   ).GetAngleDegrees();
+      //   TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
+      //   return;
+      // }
+      // if(EntSprite.IsPlaying("HeadWiggle")|| EntSprite.IsPlaying("HeadWiggleUp") || EntSprite.IsPlaying("HeadWiggleLeft") || EntSprite.IsPlaying("HeadWiggleRight") || EntSprite.IsPlaying("HeadWiggleDownLeft") || EntSprite.IsPlaying("HeadWiggleDownRight") || EntSprite.IsPlaying("HeadWiggleUpLeft") || EntSprite.IsPlaying("HeadWiggleUpRight")){
+      //   data.Danger = 0;
+      //   RemoveLaserIndicator(ent)
+      //   return;
+      // }
+    }
+    if(ent.ToNPC().State == 8 && EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() > 20){
+      data.Danger = 0;
+      RemoveLaserIndicator(ent)
+      return;
+    }
   }
 }
