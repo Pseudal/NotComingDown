@@ -783,7 +783,7 @@ export function VanillaElseIfHell(
       EntSprite.GetFrame() > 80 &&
       EntSprite.GetFrame() < 102
     ) {
-      spawnTracer(ent, 90, [1], 50, false, 2, 0, 0);
+      spawnTracer(ent, 90, [1], 50, false, 0, 2, 0);
       return;
     }
 
@@ -1119,7 +1119,7 @@ export function VanillaElseIfHell(
       return;
     }
   }
-  if(ent.Type == 62 && ent.Variant == 2){
+  if(ent.Type == 62 && ent.Variant == 2 && IRFconfig.Frail){
     // printConsole(`${EntSprite.GetOverlayAnimation()}`)
     // printConsole(`${EntSprite.GetAnimation()}  ${EntSprite.GetFrame()}`)
     // printConsole(`${ent.ToNPC().State}`)
@@ -1127,57 +1127,29 @@ export function VanillaElseIfHell(
       let angle = (
         ent.Position - ent.ToNPC().GetPlayerTarget().Position
       ).GetAngleDegrees();
-      TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
+      TargetLaserIndicator(ent, [angle], [180], 70, false, 2, 0, 0);
       return;
     }
     if(ent.ToNPC().State == 10){
-      printConsole(`${ent.ToNPC().V1} ${ent.ToNPC().V2}`)
-      if(frailbaseset == 0 && ent.ToNPC().V2 !== 0){
-        printConsole(`trigger1`)
-        frailbase = ent.ToNPC().V2
-        frailbaseset = 1
-      }
-      if(frailbaseset == 1 && ent.ToNPC().V2 !== frailbase){
-        printConsole(`trigger2`)
-        frailbase = ent.ToNPC().V2
-        frailbaseset = 2
-      }
-      if(frailbaseset == 2 && ent.ToNPC().V2 !== frailbase){
-        printConsole(`trigger3`)
-        frailbase = ent.ToNPC().V2
-        frailbaseset = 3
-      }
-      if(frailbaseset == 3 && ent.ToNPC().V2 !== frailbase){
-        printConsole(`trigger4`)
-        frailbase = ent.ToNPC().V2
-        frailbaseset = 4
-      }
-      if(frailbaseset == 4){
-        printConsole(`trigger5`)
+      if(ent.ToNPC().I2 < 7200000 && ent.ToNPC().I2 > 7000000){
         let angle = (
           ent.Position - ent.ToNPC().GetPlayerTarget().Position
         ).GetAngleDegrees();
-        TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
+        TargetLaserIndicator(ent, [angle], [180], 70, false, 2, 0, 0);
         return;
       }
-      // if(frailbase !== ent.ToNPC().V2 && frailbaseset == 1){
-      //   spawnTracer(ent, ent.ToNPC().V2, [1], 40, false, 3, 0, 0);
-      // }
-
-
-      // if(EntSprite.IsPlaying("Attack3ShootDown")|| EntSprite.IsPlaying("Attack3ShootUp") || EntSprite.IsPlaying("Attack3ShootLeft") || EntSprite.IsPlaying("Attack3ShootRight") || EntSprite.IsPlaying("Attack3ShootUpLeft") || EntSprite.IsPlaying("Attack3ShootUpRight") || EntSprite.IsPlaying("Attack3ShootDownLeft") || EntSprite.IsPlaying("Attack3ShootDownRight")){
-      //   data.Rotate = true
-      //   let angle = (
-      //     ent.Position - ent.ToNPC().GetPlayerTarget().Position
-      //   ).GetAngleDegrees();
-      //   TargetLaserIndicator(ent, [angle], [180], 60, false, 2, 0, 0);
-      //   return;
-      // }
-      // if(EntSprite.IsPlaying("HeadWiggle")|| EntSprite.IsPlaying("HeadWiggleUp") || EntSprite.IsPlaying("HeadWiggleLeft") || EntSprite.IsPlaying("HeadWiggleRight") || EntSprite.IsPlaying("HeadWiggleDownLeft") || EntSprite.IsPlaying("HeadWiggleDownRight") || EntSprite.IsPlaying("HeadWiggleUpLeft") || EntSprite.IsPlaying("HeadWiggleUpRight")){
-      //   data.Danger = 0;
-      //   RemoveLaserIndicator(ent)
-      //   return;
-      // }
+      if(ent.ToNPC().I2 < 3900000 && ent.ToNPC().I2 > 3800000){
+        let angle = (
+          ent.Position - ent.ToNPC().GetPlayerTarget().Position
+        ).GetAngleDegrees();
+        TargetLaserIndicator(ent, [angle], [180], 70, false, 2, 0, 0);
+        return;
+      }
+      if((ent.ToNPC().I2 < 6200000 && ent.ToNPC().I2 > 6100000) || (ent.ToNPC().I2 < 3100000 && ent.ToNPC().I2 > 3000000)){
+        data.Danger = 0;
+        RemoveLaserIndicator(ent)
+        return;
+      }
     }
     if(ent.ToNPC().State == 8 && EntSprite.IsPlaying("Attack3Charge") && EntSprite.GetFrame() > 20){
       data.Danger = 0;

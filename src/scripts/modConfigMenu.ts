@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 0.9`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 1.0`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -79,8 +79,17 @@ export function ModConfig(IRFconfig) {
     addItem("MegaSatan", "Vanilla", "Mega Satan", "Enables the indicator for Mega Satan.");
     addItem("TheBeast", "Vanilla", "The Beast", "Enables the indicator for The Beast.");
     addItem("Delirium", "Vanilla", "Delirium", "Enables the indicator for Delirium.");
+    addItem("Pride", "Vanilla", "Pride", "Enables the indicator for Pride.");
+    addItem("Frail", "Vanilla", "The Frail", "Enables the indicator for the Frail.");
+    //Rev
+    addItem("Punker", "Rev", "Punker", "Enables the indicator for Punker.");
+    addItem("Cat", "Rev", "Catastroph", "Enables the indicator for Catastroph.");
+    addItem("Maxwell", "Rev", "Maxwell", "Enables the indicator for Maxwell.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Fix Gish");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Rev wave 1");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Pride & laser eye");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+mother green laser");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+The Frail v1");
   }
 }

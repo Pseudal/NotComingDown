@@ -33,4 +33,10 @@ export let IRFconfig = {
   TheBeast: true,
   Delirium: false,
   Pride: true,
+  Frail: true,
+
+  //REV
+  Punker: true,
+  Cat: true,
+  Maxwell: true,
 }
