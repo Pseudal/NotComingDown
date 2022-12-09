@@ -7,7 +7,7 @@ declare const BetterMonsters: unknown | undefined;
 //! todo 883 886.0 60.1 403
 //* spawnTracer(ent, 90, [3], 20, 2, 0, 2) entity/ mainly used for creep/ multiplicator and number of tracer : 1 down, 2 left, 3 right, 4 up/ Y position/ rest is RGB
 export function VanillaElseIfHell(
-  ent,
+  ent:Entity,
   EntSprite,
   data,
   IRFconfig,
@@ -1108,15 +1108,79 @@ export function VanillaElseIfHell(
       }
     }
   }
-  if(ent.Type == 52 && IRFconfig.Pride){
-    if (EntSprite.IsPlaying("Attack01") && EntSprite.GetFrame() < 18) {
-      spawnTracer(ent, 90, [1.5,2.5,3.5,4.5], 40, false, 3, 0, 0);
-      return;
-    }
-    if (EntSprite.IsPlaying("Attack01") && EntSprite.GetFrame() > 18) {
-      data.Danger = 0;
-      RemoveLaserIndicator(ent)
-      return;
+  if (ent.Type == 52 && IRFconfig.Pride) {
+    if (BetterMonsters !== undefined) {
+      if (
+        EntSprite.IsPlaying("Attack01") &&
+        EntSprite.GetFrame() < 18 &&
+        ent.Variant == 0 &&
+        ent.SubType == 1
+      ) {
+        spawnTracer(ent, 90, [1, 2, 3, 4], 30, false, 3, 3, 0);
+        return;
+      } else if (
+        EntSprite.IsPlaying("Attack01") &&
+        EntSprite.GetFrame() < 18 &&
+        ent.Variant == 0 &&
+        ent.SubType == 0
+      ) {
+        spawnTracer(ent, 90, [1, 2, 3, 4], 40, false, 2, 2, 2);
+        return;
+      } else if (
+        EntSprite.IsPlaying("Attack01") &&
+        ent.Variant == 1 &&
+        ent.ToNPC().I2 == 0 &&
+        EntSprite.GetFrame() < 18
+      ) {
+        printConsole(`${EntSprite.GetFrame()}`);
+        spawnTracer(ent, 90, [1.5, 2.5, 3.5, 4.5], 40, false, 3, 0, 0);
+      } else if (
+        EntSprite.IsPlaying("Attack01") &&
+        ent.Variant == 1 &&
+        EntSprite.GetFrame() > 25 &&
+        ent.ToNPC().I2 == 0
+      ) {
+        printConsole(`${EntSprite.GetFrame()}`);
+        spawnTracer(ent, 90, [1, 2, 3, 4], 30, false, 3, 0, 0);
+      }
+      if (
+        EntSprite.IsPlaying("Attack01") &&
+        EntSprite.GetFrame() > 18 &&
+        ent.Variant == 0
+      ) {
+        data.Danger = 0;
+        RemoveLaserIndicator(ent);
+        return;
+      } else if (
+        EntSprite.IsPlaying("Attack01") &&
+        EntSprite.GetFrame() > 18 &&
+        EntSprite.GetFrame() < 25 &&
+        ent.Variant == 1 &&
+        ent.ToNPC().I2 == 0
+      ) {
+        data.Danger = 0;
+        RemoveLaserIndicator(ent);
+        return;
+      } else if (
+        EntSprite.IsPlaying("Attack01") &&
+        EntSprite.GetFrame() > 18 &&
+        ent.Variant == 1 &&
+        ent.ToNPC().I2 == 1
+      ) {
+        data.Danger = 0;
+        RemoveLaserIndicator(ent);
+        return;
+      }
+    } else {
+      if (EntSprite.IsPlaying("Attack01") && EntSprite.GetFrame() < 18) {
+        spawnTracer(ent, 90, [1.5, 2.5, 3.5, 4.5], 40, false, 3, 0, 0);
+        return;
+      }
+      if (EntSprite.IsPlaying("Attack01") && EntSprite.GetFrame() > 18) {
+        data.Danger = 0;
+        RemoveLaserIndicator(ent);
+        return;
+      }
     }
   }
   if(ent.Type == 62 && ent.Variant == 2 && IRFconfig.Frail){
