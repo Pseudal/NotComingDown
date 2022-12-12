@@ -5,7 +5,7 @@ export function ModConfig(IRFconfig) {
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!","About",() => "Watch out, laser!",);
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
-    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 1.0`);
+    ModConfigMenu.AddText("Watch out, laser!", "About", () => `Version 1.0.5`);
 
     ModConfigMenu.AddSpace("Watch out, laser!", "About");
     ModConfigMenu.AddText("Watch out, laser!", "About", () => "Mod made by Tidloas with love");
@@ -87,9 +87,6 @@ export function ModConfig(IRFconfig) {
     addItem("Maxwell", "Rev", "Maxwell", "Enables the indicator for Maxwell.");
 
     ModConfigMenu.AddSpace("Watch out, laser!", "ChangeLog");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Rev wave 1");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Pride & laser eye");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+mother green laser");
-    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+The Frail v1");
+    ModConfigMenu.AddText("Watch out, laser!", "ChangeLog", () => "+Reworked foes Pride");
   }
 }

@@ -1124,7 +1124,7 @@ export function VanillaElseIfHell(
         ent.Variant == 0 &&
         ent.SubType == 0
       ) {
-        spawnTracer(ent, 90, [1, 2, 3, 4], 40, false, 2, 2, 2);
+        spawnTracer(ent, 90, [1.5, 2.5, 3.5, 4.5], 35, false, 2, 2, 2);
         return;
       } else if (
         EntSprite.IsPlaying("Attack01") &&
@@ -1133,7 +1133,7 @@ export function VanillaElseIfHell(
         EntSprite.GetFrame() < 18
       ) {
         printConsole(`${EntSprite.GetFrame()}`);
-        spawnTracer(ent, 90, [1.5, 2.5, 3.5, 4.5], 40, false, 3, 0, 0);
+        spawnTracer(ent, 90, [1.5, 2.5, 3.5, 4.5], 35, false, 3, 0, 0);
       } else if (
         EntSprite.IsPlaying("Attack01") &&
         ent.Variant == 1 &&
