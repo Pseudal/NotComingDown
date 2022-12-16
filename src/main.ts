@@ -15,7 +15,6 @@ interface DangerData {
 }
 
 let ActiveEnemy = [] as Entity[];
-declare const ModConfigMenu: unknown | undefined;
 //Compatibility
 // declare const FiendFolio: unknown | undefined;
 // declare const SWAMPY: unknown | undefined;
