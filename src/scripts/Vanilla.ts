@@ -113,32 +113,74 @@ export function VanillaElseIfHell(
     }
   } //Gabriel
   else if (ent.Type == 272 && IRFconfig.Gabriel) {
-    if (
-      ent.ToNPC().State == 9 &&
-      (EntSprite.IsPlaying("Charging") ||
-        EntSprite.IsPlaying("Float") ||
-        EntSprite.IsPlaying("Shield"))
-    ) {
-      if (BetterMonsters !== undefined && ent.Variant == 1)
-        spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
-      else spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
-      return;
-    } else if (
-      ent.ToNPC().State == 10 &&
-      EntSprite.IsPlaying("Charging2") &&
-      (BetterMonsters == undefined || ent.Variant == 0)
-    ) {
-      spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
-      return;
-    }
-
-    if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() > 4) {
-      if (data.IndicatorBrim) {
-        data.Danger = 0;
-        RemoveLaserIndicator(ent);
+    if(BetterMonsters == undefined){
+      if (
+        ent.ToNPC().State == 9 &&
+        (EntSprite.IsPlaying("Charging"))
+      ) {
+          spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
+        return;
+      } else if (
+        ent.ToNPC().State == 10 &&
+        EntSprite.IsPlaying("Charging2")
+      ) {
+        spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
         return;
       }
+
+      if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() > 4) {
+        if (data.IndicatorBrim) {
+          data.Danger = 0;
+          RemoveLaserIndicator(ent);
+          return;
+        }
+      }
+    } else{
+      if (
+        ent.ToNPC().State == 9 &&
+        (EntSprite.IsPlaying("Charging"))
+      ) {
+        if (ent.Variant == 0)
+          spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
+        return;
+      } else if (
+        ent.ToNPC().State == 10 &&
+        EntSprite.IsPlaying("Charging2")
+      ) {
+        if(ent.Variant == 0)
+          spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
+        else
+          spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
+        return;
+      }
+
+      if (EntSprite.IsPlaying("LaserShot") && EntSprite.GetFrame() > 4) {
+        if (data.IndicatorBrim) {
+          data.Danger = 0;
+          RemoveLaserIndicator(ent);
+          return;
+        }
+      }
     }
+    // if (
+    //   ent.ToNPC().State == 9 &&
+    //   (EntSprite.IsPlaying("Charging") ||
+    //     EntSprite.IsPlaying("Float") ||
+    //     EntSprite.IsPlaying("Shield"))
+    // ) {
+    //   if (BetterMonsters !== undefined && ent.Variant == 1)
+    //     spawnTracer(ent, 90, [1, 2, 3, 4], 50, false, 2, 2, 2);
+    //   else spawnTracer(ent, 90, [1, 2, 3, 4], 50, true, 2, 2, 2);
+    //   return;
+    // } else if (
+    //   ent.ToNPC().State == 10 &&
+    //   EntSprite.IsPlaying("Charging2") &&
+    //   (BetterMonsters == undefined || ent.Variant == 0)
+    // ) {
+    //   spawnTracer(ent, 90, [0.5, 1.5, 2.5, 3.5], 50, true, 2, 2, 2);
+    //   return;
+    // }
+
   } //monstro ii
   else if (ent.Type == 43 && ent.Variant == 0 && IRFconfig.Monstro) {
     if (
